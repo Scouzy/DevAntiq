@@ -1,6 +1,6 @@
-# Hubyteck — Site vitrine
+# DevAntiq — Site vitrine
 
-Site web vitrine de **Hubyteck**, studio de création de logiciels, applications et expériences
+Site web vitrine de **DevAntiq**, studio de création de logiciels, applications et expériences
 numériques. Le site présente les services, l'agence et le portfolio d'applications, avec une page
 détaillée par produit.
 
@@ -21,10 +21,10 @@ détaillée par produit.
 ├── g1oeil.html             # Page produit — G1Oeil (supervision d'URLs)
 ├── noteazy.html            # Page produit — Noteazy (station de travail tout-en-un)
 ├── css/
-│   └── hubyteck.css        # Styles partagés par les pages produits (+ carrousel)
+│   └── devantiq.css        # Styles partagés par les pages produits (+ carrousel)
 ├── img/                    # Logos et favicon
-│   ├── hubyteck-logo.png
-│   ├── hubyteck-icon.ico
+│   ├── devantiq-logo.png
+│   ├── devantiq-icon.ico
 │   ├── g1sport-logo.png
 │   ├── g1club-logo.png
 │   ├── g1oeil-logo.png
@@ -41,7 +41,7 @@ détaillée par produit.
 ```
 
 > La page d'accueil (`index.html`) embarque ses propres styles en ligne. Les pages produits
-> partagent la feuille de style `css/hubyteck.css`. Chaque page produit inclut un carrousel
+> partagent la feuille de style `css/devantiq.css`. Chaque page produit inclut un carrousel
 > d'images auto-défilant (pause au survol) avec navigation par flèches et points.
 
 ## Technologies
@@ -78,4 +78,4 @@ correspondante de `index.html` ; il suffira de l'activer une fois le site en lig
 
 ## Licence
 
-© 2025 Hubyteck. Tous droits réservés. Projet propriétaire — usage interne à Hubyteck.
+© 2025 DevAntiq. Tous droits réservés. Projet propriétaire — usage interne à DevAntiq.
