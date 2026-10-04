@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "DevAntiq — Studio numérique",
+  "short_name": "DevAntiq",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090911",
+  "theme_color": "#090911",
+  "icons": [
+    { "src": "./img/icons/icon-192-v2.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./img/icons/icon-512-v2.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./img/icons/icon-maskable-512-v2.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
