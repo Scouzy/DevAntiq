@@ -34,8 +34,11 @@
 <style>:root{--brand:#22c55e;--brand-soft:rgba(34,197,94,.15)}</style>
 <!-- Umami analytics -->
 <script defer src="https://umami.devantiq.com/script.js" data-website-id="9c57faa0-e923-4f9f-880c-0a1559312f1f"></script>
+<link rel="stylesheet" href="./css/experience.css">
+<script defer src="./js/experience.js"></script>
 </head>
 <body>
+<button type="button" class="motion-toggle product-motion" aria-pressed="false">Ⅱ Mettre en pause</button>
 
 <!-- NAVBAR -->
 <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
@@ -76,7 +79,7 @@
     <div class="reveal flex justify-center">
       <div class="glass rounded-3xl p-10 relative overflow-hidden">
         <div class="blob" style="width:260px;height:260px;background:var(--brand);top:-80px;right:-80px"></div>
-        <img src="./img/g1sport-logo.png" alt="G1Sport" class="relative z-10 h-40 w-auto mx-auto" style="filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))">
+        <img src="./img/g1sport-logo.png" alt="G1Sport" class="product-hero-logo relative z-10 h-40 w-auto mx-auto" style="filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))">
       </div>
     </div>
   </div>
@@ -248,11 +251,18 @@
     document.getElementById('next').onclick=next;
     document.getElementById('prev').onclick=prev;
     dots.forEach(d=>d.onclick=()=>{go(+d.dataset.i);reset()});
-    function play(){timer=setInterval(next,4500)}
+    function play(){
+      clearInterval(timer);
+      if(document.documentElement.classList.contains('motion-paused') || document.hidden || car.matches(':hover') || car.contains(document.activeElement)) return;
+      timer=setInterval(next,4500);
+    }
     function reset(){clearInterval(timer);play()}
     const car=document.getElementById('carousel');
     car.addEventListener('mouseenter',()=>clearInterval(timer));
     car.addEventListener('mouseleave',play);
+    car.addEventListener('focusin',()=>clearInterval(timer));
+    car.addEventListener('focusout',()=>setTimeout(play,0));
+    window.addEventListener('motionchange',play);
     caption.textContent=captions[0];
     play();
   })();

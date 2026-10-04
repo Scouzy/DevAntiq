@@ -53,6 +53,24 @@ détaillée par produit.
 
 Aucune étape de build n'est nécessaire : ce sont des pages statiques.
 
+## Expérience visuelle
+
+Les cinq pages chargent `css/experience.css` et `js/experience.js` : palette violet
+profond, logos en lévitation, cartes avec perspective au pointeur et apparitions au scroll.
+L'accueil présente une sphère de particules projetées en 3D sur Canvas, entourée de
+liens vers les quatre applications. Aucun moteur 3D externe n'est nécessaire.
+
+Le fond vidéo local `media/studio-aurora.mp4` est une boucle abstraite de huit secondes,
+muette, avec une image de remplacement `media/studio-aurora.jpg`. La vidéo et le Canvas
+s'arrêtent lorsque la scène quitte l'écran ou que l'onglet est masqué. La vidéo n'est
+pas chargée automatiquement en mode économie de données ou réduction des animations.
+Le bouton de pause arrête aussi les animations CSS et les carrousels produits ; son
+choix est conservé pendant la session. Les carrousels restent utilisables manuellement.
+Les effets de perspective suivent uniquement une souris ou un pointeur précis.
+
+La vidéo est générée sans source externe avec FFmpeg ; pour la régénérer :
+`powershell -File scripts/generate-aurora.ps1` (FFmpeg doit être installé).
+
 ## Lancer en local
 
 Comme il s'agit de fichiers statiques, un simple serveur HTTP suffit :
