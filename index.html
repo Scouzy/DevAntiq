@@ -166,8 +166,8 @@
 </style>
 <!-- Umami analytics -->
 <script defer src="https://umami.devantiq.com/script.js" data-website-id="9c57faa0-e923-4f9f-880c-0a1559312f1f"></script>
-<link rel="stylesheet" href="./css/experience.css">
-<script defer src="./js/experience.js"></script>
+<link rel="stylesheet" href="./css/experience.css?v=20261004-3">
+<script defer src="./js/experience.js?v=20261004-2"></script>
 </head>
 <body>
 <a class="skip-link" href="#services">Aller au contenu</a>
@@ -207,6 +207,8 @@
 <!-- ===== HERO ===== -->
 <section id="home" class="relative flex items-center overflow-hidden hero-studio">
   <video class="hero-film" muted loop playsinline preload="none" poster="./media/studio-aurora.jpg" data-src="./media/studio-aurora.mp4" aria-hidden="true" tabindex="-1"></video>
+  <div class="depth-floor" aria-hidden="true"></div>
+  <div class="hero-watermark" aria-hidden="true">BEYOND.</div>
   <div class="hero-layout relative z-10 max-w-7xl mx-auto px-6 w-full">
     <div>
       <div class="hero-eyebrow"><span class="status-dot"></span> Studio indépendant · Création numérique</div>
@@ -223,13 +225,13 @@
         <div class="core-glow" aria-hidden="true"></div>
         <div class="orbit" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
         <canvas id="universe-canvas" aria-hidden="true"></canvas>
-        <div class="core-word" aria-hidden="true"><strong>DevAntiq<span style="display:inline;color:#c3a6ff;font-size:32px;letter-spacing:0">.</span></strong><span>LES IDÉES PRENNENT VIE</span></div>
-        <a href="g1sport.html" class="app-satellite satellite-sport"><img src="./img/g1sport-logo.png" alt="" width="43" height="43"><span><strong>G1Sport</strong><small>Sport &amp; coaching</small></span></a>
-        <a href="g1club.html" class="app-satellite satellite-club"><img src="./img/logo-g1club.png" alt="" width="43" height="43"><span><strong>G1Club</strong><small>La vie de votre club</small></span></a>
-        <a href="noteazy.html" class="app-satellite satellite-note"><img src="./img/noteazy-new_logo.png" alt="" width="43" height="43"><span><strong>Noteazy</strong><small>Vos idées, organisées</small></span></a>
-        <a href="g1oeil.html" class="app-satellite satellite-eye"><img src="./img/g1oeil-logo.png" alt="" width="43" height="43"><span><strong>G1Oeil</strong><small>Supervision en direct</small></span></a>
+
+        <a href="g1sport.html" class="app-satellite satellite-sport"><img src="./img/g1sport-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Sport</strong><small>Sport &amp; coaching</small></span></a>
+        <a href="g1club.html" class="app-satellite satellite-club"><img src="./img/logo-g1club.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Club</strong><small>La vie de votre club</small></span></a>
+        <a href="noteazy.html" class="app-satellite satellite-note"><img src="./img/noteazy-new_logo.png" alt="" draggable="false" width="43" height="43"><span><strong>Noteazy</strong><small>Vos idées, organisées</small></span></a>
+        <a href="g1oeil.html" class="app-satellite satellite-eye"><img src="./img/g1oeil-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Oeil</strong><small>Supervision en direct</small></span></a>
       </div>
-      <div class="scene-caption">Un univers d’idées. Des applications concrètes.</div>
+      <div class="scene-caption">De l’imagination à l’interaction.</div>
     </div>
   </div>
   <div class="hero-foot max-w-7xl mx-auto px-6">
@@ -374,7 +376,8 @@
     <!-- G1Sport -->
     <a href="g1sport.html" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
-        <div class="project-bg-pattern"></div>
+        <div class="project-bg-pattern" data-depth="true"></div>
+        <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1sport/Tableau-de-bord-C.png" alt="" loading="lazy" width="1280" height="800"></div>
         <div class="project-orb" style="width:220px;height:220px;background:#22c55e;top:-60px;left:-40px"></div>
         <span class="project-tag" style="position:absolute;top:16px;left:16px;background:rgba(34,197,94,.18);color:#22c55e">Sport &amp; Coaching</span>
         <span class="project-ext" title="Ouvrir g1sport.fr" onclick="event.preventDefault();event.stopPropagation();window.open('https://g1sport.fr','_blank','noopener')">Site officiel &#8599;</span>
@@ -396,7 +399,8 @@
     <!-- G1Club -->
     <a href="g1club.html" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
-        <div class="project-bg-pattern"></div>
+        <div class="project-bg-pattern" data-depth="true"></div>
+        <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1club/Tableau-de-bord.png" alt="" loading="lazy" width="1280" height="800"></div>
         <div class="project-orb" style="width:220px;height:220px;background:#3b82f6;bottom:-60px;right:-40px"></div>
         <span class="project-tag" style="position:absolute;top:16px;left:16px;background:rgba(59,130,246,.18);color:#3b82f6">Sports collectifs</span>
         <span class="project-ext" title="Ouvrir g1club.fr" onclick="event.preventDefault();event.stopPropagation();window.open('https://g1club.fr','_blank','noopener')">Site officiel &#8599;</span>
@@ -418,7 +422,8 @@
     <!-- G1Oeil -->
     <a href="g1oeil.html" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
-        <div class="project-bg-pattern"></div>
+        <div class="project-bg-pattern" data-depth="true"></div>
+        <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1oeil/Dashboard.png" alt="" loading="lazy" width="1280" height="800"></div>
         <div class="project-orb" style="width:220px;height:220px;background:#a855f7;top:-60px;left:-40px"></div>
         <span class="project-tag" style="position:absolute;top:16px;left:16px;background:rgba(168,85,247,.18);color:#a855f7">Infra &amp; Monitoring</span>
         <span class="project-ext disabled" title="Site officiel bientôt en ligne">Site bientôt</span>
@@ -441,7 +446,8 @@
     <!-- Noteazy -->
     <a href="noteazy.html" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
-        <div class="project-bg-pattern"></div>
+        <div class="project-bg-pattern" data-depth="true"></div>
+        <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/noteazy/dashboard.png" alt="" loading="lazy" width="1280" height="800"></div>
         <div class="project-orb" style="width:220px;height:220px;background:#f59e0b;bottom:-60px;right:-40px"></div>
         <span class="project-tag" style="position:absolute;top:16px;left:16px;background:rgba(245,158,11,.18);color:#f59e0b">Productivité</span>
         <span class="project-ext" title="Ouvrir noteazy.com" onclick="event.preventDefault();event.stopPropagation();window.open('https://noteazy.com','_blank','noopener')">Site officiel &#8599;</span>

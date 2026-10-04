@@ -57,8 +57,9 @@ Aucune étape de build n'est nécessaire : ce sont des pages statiques.
 
 Les cinq pages chargent `css/experience.css` et `js/experience.js` : palette violet
 profond, logos en lévitation, cartes avec perspective au pointeur et apparitions au scroll.
-L'accueil présente une sphère de particules projetées en 3D sur Canvas, entourée de
-liens vers les quatre applications. Aucun moteur 3D externe n'est nécessaire.
+L'accueil présente une sculpture tubulaire 3D avec perspective, éclairage et reflets sur Canvas, entourée de
+liens vers les quatre applications. Les cartes projets superposent des captures réelles
+sur des écrans en perspective et des logos en relief. Aucun moteur 3D externe n'est nécessaire.
 
 Le fond vidéo local `media/studio-aurora.mp4` est une boucle abstraite de huit secondes,
 muette, avec une image de remplacement `media/studio-aurora.jpg`. La vidéo et le Canvas
