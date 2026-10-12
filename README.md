@@ -57,8 +57,11 @@ Aucune étape de build n'est nécessaire : ce sont des pages statiques.
 
 Les cinq pages chargent `css/experience.css` et `js/experience.js` : palette violet
 profond, logos en lévitation, cartes avec perspective au pointeur et apparitions au scroll.
-L'accueil présente une sculpture tubulaire 3D avec perspective, éclairage et reflets sur Canvas, entourée de
-liens vers les quatre applications. Les cartes projets superposent des captures réelles
+L'accueil présente le logo DevAntiq en volume sur Canvas, avec rotation, tranches noires avec un fin liseré doré sur les courbures, biseaux arrondis et reflets animés, dans une sphère de verre transparente.
+Les quatre étiquettes d'applications rebondissent en boucle contre sa surface, avec des rythmes décalés et une onde lumineuse à chaque impact. La distance de contact tient compte de la taille et de l'inclinaison de chaque carte. L'étiquette survolée ou sélectionnée au clavier s'immobilise pour faciliter la navigation.
+Au survol ou au focus clavier, une liaison lumineuse
+relie le logo à l’application sélectionnée ; lorsque les animations sont actives,
+le logo s’oriente vers elle. Les cartes projets superposent des captures réelles
 sur des écrans en perspective et des logos en relief. Aucun moteur 3D externe n'est nécessaire.
 
 Le fond vidéo local `media/studio-aurora.mp4` est une boucle abstraite de huit secondes,

@@ -38,7 +38,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .core-word{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none;color:#eee7ff;text-shadow:0 0 35px #a682ff66}
 .core-word strong{font-family:'Syne',sans-serif;font-size:32px;letter-spacing:-.05em}
 .core-word span{font-size:8px;letter-spacing:.34em;color:#aba0c5;margin-top:9px}
-.app-satellite{position:absolute;z-index:2;display:flex;align-items:center;gap:12px;padding:15px 18px;width:174px;border:1px solid #ffffff20;border-radius:16px;background:linear-gradient(130deg,#30263de8,#15141fe8);box-shadow:0 20px 40px #0005,inset 0 1px #ffffff0d;backdrop-filter:blur(16px);animation:satellite-float 7s ease-in-out infinite;transition:border-color .3s,box-shadow .3s}
+.app-satellite{position:absolute;z-index:2;display:flex;align-items:center;gap:12px;padding:15px 18px;width:174px;border:1px solid #ffffff20;border-radius:16px;background:linear-gradient(130deg,#30263de8,#15141fe8);box-shadow:0 20px 40px #0005,inset 0 1px #ffffff0d;backdrop-filter:blur(16px);animation:satellite-float var(--float-duration,7s) ease-in-out infinite;transition:border-color .3s,box-shadow .3s}
 .app-satellite:hover,.app-satellite:focus-visible{border-color:#c7b6ff99;box-shadow:0 16px 50px #9c6aff30}
 .app-satellite img{width:43px;height:43px;object-fit:contain;filter:drop-shadow(0 7px 9px #0008)}
 .app-satellite strong{display:block;font-size:14px;font-weight:500;color:#eeeaf8}
@@ -89,7 +89,7 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .depth-floor{position:absolute;bottom:-240px;left:-40%;width:180%;height:600px;transform:perspective(450px) rotateX(65deg);transform-origin:center top;background-image:linear-gradient(#bb8bff24 1px,transparent 1px),linear-gradient(90deg,#bb8bff24 1px,transparent 1px);background-size:75px 75px;mask-image:radial-gradient(ellipse at 65% 30%,#000,transparent 62%);pointer-events:none}
 .universe{height:650px;perspective:1100px}
 .universe-scene{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .8s cubic-bezier(.2,.7,.2,1)}
-#universe-canvas{transform:translateZ(25px)}
+#universe-canvas{transform:translateZ(-1px)}
 .core-glow{left:16%;top:12%;width:70%;height:70%;filter:blur(32px);background:radial-gradient(ellipse,#7934ed22,transparent 65%);box-shadow:none;transform:translateZ(-90px)}
 .orbit{left:0;top:18%;width:100%;height:65%;border-color:#c094ff38;transform:translateZ(-55px) rotate(-28deg) rotateX(68deg);box-shadow:0 0 30px #aa67ff12}
 .orbit-two{transform:translateZ(-80px) rotate(35deg) rotateX(65deg);border-color:#91fff329}
@@ -100,7 +100,16 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .satellite-club{top:16%;right:0;--depth:-35px;--angle:10deg;opacity:.9}
 .satellite-note{bottom:13%;left:1%;--depth:100px;--angle:-8deg}
 .satellite-eye{bottom:14%;right:-1%;--depth:55px;--angle:12deg}
-@keyframes satellite-float{0%,100%{transform:translate3d(0,0,var(--depth,35px)) rotateX(8deg) rotateY(-10deg) rotateZ(var(--angle))}50%{transform:translate3d(0,-24px,calc(var(--depth,35px) + 20px)) rotateX(-5deg) rotateY(8deg) rotateZ(calc(var(--angle) + 4deg))}}
+@keyframes satellite-float{
+  0%,100%{transform:translate3d(0,8px,var(--depth,35px)) rotateX(8deg) rotateY(-12deg) rotateZ(var(--angle))}
+  25%{transform:translate3d(var(--drift,12px),-12px,calc(var(--depth,35px) + 18px)) rotateX(-4deg) rotateY(4deg) rotateZ(calc(var(--angle) + 5deg))}
+  50%{transform:translate3d(0,-30px,calc(var(--depth,35px) + 36px)) rotateX(-9deg) rotateY(14deg) rotateZ(calc(var(--angle) + 8deg))}
+  75%{transform:translate3d(calc(var(--drift,12px) * -1),-8px,calc(var(--depth,35px) + 12px)) rotateX(4deg) rotateY(-2deg) rotateZ(calc(var(--angle) - 3deg))}
+}
+.satellite-sport{--float-duration:6.4s;--drift:14px}
+.satellite-club{--float-duration:7.6s;--drift:-12px}
+.satellite-note{--float-duration:7s;--drift:10px}
+.satellite-eye{--float-duration:8.2s;--drift:-14px}
 .scene-caption{bottom:0;color:#b9a4d0;font-size:10px;letter-spacing:.25em}
 .hero-actions .btn-primary{background:linear-gradient(135deg,#e0ceff,#b48bf8);box-shadow:0 4px 0 #7851ab,0 14px 36px #9955ff33;border:1px solid #eadbff66}
 .hero-actions .btn-primary:hover{transform:translateY(-4px);box-shadow:0 8px 0 #7851ab,0 22px 50px #9955ff55}
@@ -134,6 +143,36 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .app-satellite>*{pointer-events:none}
 .app-satellite img{user-select:none;-webkit-user-drag:none}
 .satellite-club{--depth:35px}
-.universe:focus-within .app-satellite{animation-play-state:paused}
-@media(hover:hover){.universe:hover .app-satellite{animation-play-state:paused}}
+.app-satellite:focus-visible{animation-play-state:paused}
+@media(hover:hover){.app-satellite:hover{animation-play-state:paused}}
 @media(max-width:700px){.satellite-club{--depth:5px}}
+
+/* The image remains available until the solid Canvas logo is ready. */
+.brand-stage{position:absolute;left:7%;top:46%;width:86%;aspect-ratio:696/482;transform:translateY(-50%);pointer-events:none}
+.brand-axis,.brand-sculpture{position:absolute;inset:0}
+.brand-face{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:brightness(1.25)}
+.brand-canvas-ready .brand-axis{visibility:hidden}
+@media(max-width:700px){.brand-stage{width:86%;left:7%}}
+
+/* Selection feedback does not move the hit area or intercept navigation. */
+.app-satellite{transition:border-color .25s,box-shadow .25s,opacity .25s}
+.app-engaged .app-satellite:not(.app-active){opacity:.65}
+.app-satellite.app-active{opacity:1;border-color:var(--app-color);box-shadow:0 0 24px color-mix(in srgb,var(--app-color) 28%,transparent),0 24px 40px #0009,inset 0 1px #ffffff40}
+.app-satellite.app-active strong{color:var(--app-color)}
+
+/* An explicit resume also enables card motion when the OS prefers reduced motion. */
+@media(prefers-reduced-motion:reduce){
+  .motion-enabled .app-satellite{animation:satellite-float var(--float-duration,7s) ease-in-out infinite!important}
+  .motion-enabled .satellite-club{animation-delay:-2s!important}
+  .motion-enabled .satellite-note{animation-delay:-4s!important}
+  .motion-enabled .satellite-eye{animation-delay:-1s!important}
+  .motion-enabled .app-satellite:focus-visible{animation-play-state:paused!important}
+}
+@media(prefers-reduced-motion:reduce) and (hover:hover){
+  .motion-enabled .app-satellite:hover{animation-play-state:paused!important}
+}
+@media(max-width:700px){.app-satellite{--drift:6px}}
+/* Canvas and links share one coordinate system for glass contact and rebounds. */
+.glass-physics .app-satellite{top:0;left:0;right:auto;bottom:auto;animation:none!important;will-change:transform}
+.glass-physics .orbit{opacity:.35}
+@media(max-width:700px){.glass-physics .app-satellite{width:min(137px,32vw)}}
