@@ -53,12 +53,46 @@ détaillée par produit.
 
 Aucune étape de build n'est nécessaire : ce sont des pages statiques.
 
+## Nouvelles applications et espace membres
+
+`mycareer.html` et `g1tournoi.html` présentent les deux applications avec leurs
+logos issus des projets locaux. Les cartes figurent dans les réalisations de
+l'accueil. Aucun tarif, chiffre d'utilisation ou capture fictive n'a été ajouté.
+
+`membres.html` contient le catalogue des neuf applications VPS et une recherche.
+La session est vérifiée côté serveur via `/api/member-session` ; un simple serveur
+statique affiche donc volontairement une connexion indisponible.
+Le service Django gère les comptes, les sessions, les mots de passe et les droits
+individuels ; son administration est disponible sous `/auth/admin/` après installation.
+Le [guide VPS](infrastructure/members/README.md) décrit l'installation avec
+`& .\scripts\install-members-vps.ps1`. Le déploiement réel reste à effectuer.
+La connexion native de chaque application est conservée jusqu'au raccordement SSO.
+
+Vérifications locales : `node scripts/test-members.cjs` et
+`docker compose -f infrastructure/members/compose.yml config --quiet`.
+La seconde commande valide la structure Compose. Les tests du service Django et
+`python scripts/test-members-deployment.py` vérifient les droits et la préparation
+Nginx ; l'installateur valide aussi Nginx et les accès anonymes sur le VPS.
+
+GitHub Pages ne déploie que les fichiers publics assemblés par
+`python scripts/stage-site.py` dans `.site`. Le service d'authentification,
+les comptes et les secrets doivent être installés séparément, hors racine web.
+
+Publication de la vitrine sur le VPS identifié :
+`& .\scripts\publish-showcase.ps1` depuis PowerShell. Le script demande le mot de
+passe SSH dans le terminal, transfère seulement les fichiers publics concernés,
+contrôle les différences avec la version Git de départ et sauvegarde avant écriture.
+Il s'arrête si des modifications distantes non présentes dans le dépôt sont détectées.
+Il n'active pas l'authentification ni ne modifie Nginx.
+
+Vérification du déploiement : `python scripts/test-publish-showcase.py`.
+
 ## Expérience visuelle
 
 Les cinq pages chargent `css/experience.css` et `js/experience.js` : palette violet
 profond, logos en lévitation, cartes avec perspective au pointeur et apparitions au scroll.
 L'accueil présente le logo DevAntiq en volume sur Canvas, avec rotation, tranches noires avec un fin liseré doré sur les courbures, biseaux arrondis et reflets animés, dans une sphère de verre transparente.
-Les quatre étiquettes d'applications rebondissent en boucle contre sa surface, avec des rythmes décalés et une onde lumineuse à chaque impact. La distance de contact tient compte de la taille et de l'inclinaison de chaque carte. L'étiquette survolée ou sélectionnée au clavier s'immobilise pour faciliter la navigation.
+Les six étiquettes d'applications rebondissent en boucle contre sa surface, avec des rythmes décalés et une onde lumineuse à chaque impact. La distance de contact tient compte de la taille et de l'inclinaison de chaque carte. L'étiquette survolée ou sélectionnée au clavier s'immobilise pour faciliter la navigation.
 Au survol ou au focus clavier, une liaison lumineuse
 relie le logo à l’application sélectionnée ; lorsque les animations sont actives,
 le logo s’oriente vers elle. Les cartes projets superposent des captures réelles
@@ -101,3 +135,24 @@ correspondante de `index.html` ; il suffira de l'activer une fois le site en lig
 ## Licence
 
 © 2025 DevAntiq. Tous droits réservés. Projet propriétaire — usage interne à DevAntiq.
+
+## Ajouter une application à la vitrine
+
+Toute nouvelle application doit avoir sa fiche produit, une carte `.app-satellite`
+dans la scène d’accueil et un encart `.project-card` dans les réalisations.
+Les satellites partagent rebond, survol, focus clavier et pause ; `data-color`
+définit leur couleur et `data-angle` leur position. Le moteur accepte un nombre
+variable de cartes sans tableau de couleurs ou d’inclinaisons limité à quatre.
+Vérifier la répartition et l’absence de chevauchement sur mobile à chaque ajout.
+
+Les encarts utilisent tous `.project-screen`, `.project-logo` et `.project-actions` :
+une capture réelle, le logo et deux liens frères. Ne pas imbriquer des liens.
+« Voir le projet » garde toute la carte cliquable ; le second bouton ouvre le site
+externe dans un nouvel onglet. Pour les applications distribuées sur DevAntiq,
+ce second bouton est un téléchargement local avec l’attribut `download`.
+Noteazy et G1Oeil n’ont pas de bouton vers un site externe.
+
+Les aperçus `caroussel/mycareer/accueil.png` et `caroussel/g1tournoi/accueil.png`
+sont des captures des pages publiques fournies par le propriétaire, prises le
+18 octobre 2026. Ajouter les nouveaux fichiers à `scripts/publish-showcase.py`
+et mettre à jour le sitemap et les versions de cache CSS/JS lors d’un changement.

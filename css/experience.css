@@ -176,3 +176,23 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .glass-physics .app-satellite{top:0;left:0;right:auto;bottom:auto;animation:none!important;will-change:transform}
 .glass-physics .orbit{opacity:.35}
 @media(max-width:700px){.glass-physics .app-satellite{width:min(137px,32vw)}}
+
+/* All portfolio entries share the same card interactions and two explicit actions. */
+.project-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 22px;margin-top:24px;font-size:13px;font-weight:600}
+.project-detail{color:var(--accent)}
+.project-detail::after{content:'';position:absolute;inset:0;z-index:1;border-radius:inherit}
+.project-access{position:relative;z-index:2;border:1px solid #c9adff45;background:#ffffff07;padding:10px 14px;border-radius:99px;color:#e4d6ff}
+.project-access:hover{background:#bba0ff20;border-color:#c9adff}
+.project-detail:focus-visible::after{outline:2px solid var(--accent);outline-offset:-3px}
+.project-access:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.project-card:focus-within .project-screen{transform:rotateX(3deg) rotateY(-10deg) rotateZ(2deg) translateY(-9px)}
+.project-card:nth-child(even):focus-within .project-screen{transform:rotateX(3deg) rotateY(10deg) rotateZ(-2deg) translateY(-9px)}
+/* Six satellites: three above and three below the sphere, also without Canvas. */
+.universe{height:720px}
+.app-satellite{width:156px;padding:12px;gap:9px}
+.app-satellite img{width:38px;height:38px}
+.satellite-career{top:0;left:calc(50% - 78px);--angle:0deg;--float-duration:7.3s}
+.satellite-tournament{bottom:4%;left:calc(50% - 78px);--angle:0deg;--float-duration:8.5s}
+.brand-stage{width:70%;left:15%}
+@media(max-width:1100px){.universe{height:620px}.app-satellite{width:116px;min-height:96px;flex-direction:column;padding:9px;text-align:center;gap:5px}.app-satellite img{width:30px;height:30px}.app-satellite strong{font-size:12px}.app-satellite small{font-size:9px}.satellite-career,.satellite-tournament{left:calc(50% - 58px)}}
+@media(max-width:700px){.universe{height:520px;max-width:480px}.app-satellite,.glass-physics .app-satellite{width:25%;min-height:92px}.app-satellite img{width:26px;height:26px}.app-satellite strong{font-size:11px}.app-satellite small{font-size:8px}.satellite-career,.satellite-tournament{left:37.5%}.scene-caption{bottom:0}}

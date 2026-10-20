@@ -116,3 +116,6 @@ a{color:inherit;text-decoration:none}
   .carousel-btn.next{right:2px}
   .carousel-slide img{max-height:300px}
 }
+
+/* Keep product navigation usable on small phones. */
+@media(max-width:480px){#navbar nav{gap:8px}#navbar nav>a:first-child .display{display:none}#navbar nav>a{font-size:12px}#navbar nav .btn-ghost{padding:10px 12px}}

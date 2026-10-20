@@ -1,0 +1,28 @@
+
+installDevAntiq(app, {
+  appId:'livemonitor', configPath:new URL('./devantiq-sso/client.json',import.meta.url),
+  parseForm:express.urlencoded({extended:false,limit:'2kb'}),
+  resolveIdentity:async claims => {
+    if (!/^dv-[a-f0-9]{32}$/.test(claims.external_account)) throw new Error('Unapproved account');
+    devantiqDb.exec('CREATE TABLE IF NOT EXISTS devantiq_identities (subject TEXT PRIMARY KEY, external_id TEXT UNIQUE NOT NULL, user_id INTEGER UNIQUE NOT NULL REFERENCES users(id))');
+    const user = devantiqDb.transaction(() => {
+      let link = devantiqDb.prepare('SELECT * FROM devantiq_identities WHERE subject=?').get(claims.sub);
+      if (link && link.external_id !== claims.external_account) throw new Error('Identity changed');
+      if (!link) {
+        const result = devantiqDb.prepare("INSERT INTO users(username,email,password_hash,role,status) VALUES(?,?,?,'user','approved')")
+          .run(claims.external_account, claims.external_account+'@members.invalid',devantiqBcrypt.hashSync(devantiqRandomBytes(48).toString('hex'),12));
+        devantiqDb.prepare('INSERT INTO devantiq_identities(subject,external_id,user_id) VALUES(?,?,?)')
+          .run(claims.sub,claims.external_account,result.lastInsertRowid);
+        link = {user_id:result.lastInsertRowid};
+      }
+      const row = devantiqDb.prepare('SELECT id,username,email,role,status FROM users WHERE id=?').get(link.user_id);
+      if (!row || row.status !== 'approved') throw new Error('Account disabled');
+      return row;
+    })();
+    return {issueSession:() => ({
+      'livemonitor-auth-token':devantiqJwt.sign({id:user.id,username:user.username,role:user.role,
+        devantiq_sub:claims.sub,devantiq_account:claims.external_account},devantiqSecret,{expiresIn:'8h'}),
+      'livemonitor-auth-user':JSON.stringify(user),
+    })};
+  },
+});

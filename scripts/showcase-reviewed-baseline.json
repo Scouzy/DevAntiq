@@ -1,0 +1,186 @@
+{
+  "index.html": {
+    "local_sha256": "45ad15942daabb3f2f0b7422a47c15ce211300808b92da9bedc2ca90de92db9d",
+    "remote_sha256": "3260aec1bf32b1757ac7b3694bf6c66cee1d9726efcaf7f6194592d8aeed4c17"
+  },
+  "g1club.html": {
+    "local_sha256": "3e9ec4cb0b353c07811affb568bacb651be0cfef4639afb00a49050e3b4be2a8",
+    "remote_sha256": "10ed738f06b80f7dde7a719db05949a8b1d8e5601bd8487f299df6ac302e2ed3"
+  },
+  "g1sport.html": {
+    "local_sha256": "a5a2c9c6d718b537c27207f20bc96fbc0015142e7b3eb4170cc0261f748ddd69",
+    "remote_sha256": "a73b475e9372b025ebbe67ee47fef939c11d2cda3416a6f96c4b2a0595b5267c"
+  },
+  "g1oeil.html": {
+    "local_sha256": "ee92fddc1c6931aa4552388dcaa27ce55289c1bffe2868f10ee3dd08682eed3e",
+    "remote_sha256": "ef92bb7b731a07d7c32d9fbc4c50802e4f8cf79d8f152d77cc3506be00fd57d0"
+  },
+  "noteazy.html": {
+    "local_sha256": "179da2c03c9ad6c3257413b484c59409951fcb56851972ae37274ec4ab74cf87",
+    "remote_sha256": "f13e0867f68892eab21758a71fe4c7758db694d6f49d7888191e4d506bf9d963"
+  },
+  "mycareer.html": {
+    "local_sha256": "be3074022d96bf9fb6b66171e4112178eb338c86a46ec88143565225ae2c9f82",
+    "remote_sha256": "b33c9d838dcc27860d5a4f1a363f681287c9239f88de7a7a604095ef7e150bfd"
+  },
+  "g1tournoi.html": {
+    "local_sha256": "d1de9fb62a92a384a1866cb9074b61d69ed6f44643321fd6c25eac82ce81c146",
+    "remote_sha256": "105c0d77b5e1002685d2a9a6a0b901bdfadd3bb6272aed97ace15cabd74e439e"
+  },
+  "membres.html": {
+    "remote_sha256": "dece9aeb4c844130ad649da0f3aa4672ddfe8e23e1925ec924091e19711dc5a1",
+    "local_sha256": "762f4e82ba6b1e5637f0292d57d1ee8f5ff11b2cd611fdba8f622b760f3e07cd"
+  },
+  "sitemap.xml": {
+    "local_sha256": "48ec88f8f258870421d7e9aea23ca5bdc255f23135025deaace22fba47c7d3f7",
+    "remote_sha256": "48ec88f8f258870421d7e9aea23ca5bdc255f23135025deaace22fba47c7d3f7"
+  },
+  "css/devantiq.css": {
+    "local_sha256": "1df589168e6a313230706832e340a3544d14ae6fcf3d656a2b847d3202e9a7e2",
+    "remote_sha256": "1df589168e6a313230706832e340a3544d14ae6fcf3d656a2b847d3202e9a7e2"
+  },
+  "css/membres.css": {
+    "local_sha256": "e00e44cc1a8164833cb0f217654ece8494d9705b4e747d26fcf9431f29a21a19",
+    "remote_sha256": "b5cd8165e2513befc7b5a2f08037954ea41f429107907057469be46d0ddcc70e"
+  },
+  "js/product.js": {
+    "local_sha256": "4c966b39927ce8a2cd8559182ae48d4351dab8415efc87054cf875caae69effe",
+    "remote_sha256": "4c966b39927ce8a2cd8559182ae48d4351dab8415efc87054cf875caae69effe"
+  },
+  "js/membres.js": {
+    "remote_sha256": "00eb2dbb8cab3924b5a1d2ca28b9205e504b1a53de85b83e7a42b939f7797f41",
+    "local_sha256": "e5a92f383b0c1c0f51a792c21306ab585c5f73ec74fd5c8163293ed64775e5b8"
+  },
+  "img/mycareer-logo.png": {
+    "local_sha256": "067d33170e2f34a55daaf658f2f176a23f469d96261213a01a49b79850817f79",
+    "remote_sha256": "067d33170e2f34a55daaf658f2f176a23f469d96261213a01a49b79850817f79"
+  },
+  "img/g1tournoi-logo.png": {
+    "local_sha256": "c9159178cd8eb21b2a9dd381024011dc7637cbd103b76caf69c89eb3cb0221c9",
+    "remote_sha256": "c9159178cd8eb21b2a9dd381024011dc7637cbd103b76caf69c89eb3cb0221c9"
+  },
+  "css/experience.css": {
+    "local_sha256": "0455f5c545859d6cfa6e48e0d2809c173584ba1bc1844287193418550d7769db",
+    "remote_sha256": "ac8cf365b6c8d59493adf377f35d8cfe398ac2f5b198d60696e3dbd980e92141"
+  },
+  "js/experience.js": {
+    "local_sha256": "019042f770e4bc3973b0c1f32b5fa8559e432df89c1e3b30b2e175b0db6220cb",
+    "remote_sha256": "ff5724bb5e2983166a53fdfce5dda071b49544dae4cd167f85bbcfbc3bc8b03c"
+  },
+  "caroussel/mycareer/accueil.png": {
+    "local_sha256": "e20ff56078fd7691959f8ff877ef38bb3010fbf8b281dc773bee6f2ae8de59e2",
+    "remote_sha256": null
+  },
+  "caroussel/g1tournoi/accueil.png": {
+    "local_sha256": "d40e204e0fce1f486768077f570d06fb5551cd1392f753310a2702aa99a9fcdc",
+    "remote_sha256": null
+  },
+  "img/members/cloud-scene.svg": {
+    "local_sha256": "b0c360f23bb88b24e72d4ce0a7b0470facb99a75e677f1d5eba5680be118e2c1",
+    "remote_sha256": null
+  },
+  "img/members/cloud.svg": {
+    "local_sha256": "7d9896c471b7df38e38d7a24cd5cce43c88b4f3ede0f96b99e8bce020342d6ad",
+    "remote_sha256": null
+  },
+  "img/members/g1crm-scene.svg": {
+    "local_sha256": "4fb4ee38afecff44dcd1e514f1394ebfb6168d95a75024482e110daa12a58176",
+    "remote_sha256": null
+  },
+  "img/members/g1crm.png": {
+    "local_sha256": "72e5c6aa4d3fc38b976db5f59dedede2b4b9e080687772b6faa2db3983f831b7",
+    "remote_sha256": null
+  },
+  "img/members/g1profil-scene.svg": {
+    "local_sha256": "9b074bbd89b64180ced44a7c23d166a6125d78efffb4b8c835ff8e3bf589367e",
+    "remote_sha256": null
+  },
+  "img/members/g1profil.svg": {
+    "local_sha256": "567ab6b920f8d69968cecc08c09c71118ec6434dfaf9bb99e7c8e1402f5565a7",
+    "remote_sha256": null
+  },
+  "img/members/livemonitor-scene.svg": {
+    "local_sha256": "284db8bb3ad799a5c0fc84fbc4176f6fdd20f8877806a18ab5c2e699d345b1b0",
+    "remote_sha256": null
+  },
+  "img/members/livemonitor.png": {
+    "local_sha256": "be07e9f623fa92193fff12bf647d39c0a0445635e537a8bf8dfd779e30a05877",
+    "remote_sha256": null
+  },
+  "img/members/n8n-scene.svg": {
+    "local_sha256": "838a5bf0b645ff8de929db2715c42360d5abfcf3a9970b31abe9bbcea7b975f8",
+    "remote_sha256": null
+  },
+  "img/members/n8n.svg": {
+    "local_sha256": "436e9d2064d74625b497ee479fcfa297d403c893fd3ff3a4575a052ad75e0b17",
+    "remote_sha256": null
+  },
+  "img/members/omniroute-scene.svg": {
+    "local_sha256": "22f958dc08004e771b65bea3821db456f5eb15697ce105dd052b06f3b1c54f4b",
+    "remote_sha256": null
+  },
+  "img/members/omniroute.svg": {
+    "local_sha256": "2fa864c2b2755cf671c1c5b69aa986a58a137732e13d19af1ae2f8bfb50ed020",
+    "remote_sha256": null
+  },
+  "img/members/sentinet-scene.svg": {
+    "local_sha256": "40db41412b35cdf3746ff0245c623ad410791f657bd3594f79fd8d811cca3232",
+    "remote_sha256": null
+  },
+  "img/members/sentinet.svg": {
+    "local_sha256": "39652d452aa6f400dc12ed37235acfda84daebe1ecc50445b2705a53e66fc8cd",
+    "remote_sha256": null
+  },
+  "img/members/umami-scene.svg": {
+    "local_sha256": "78921a2e335e3784a2b1d9f3f7940b1baaf44de555d661bb53905e2396af0ba5",
+    "remote_sha256": null
+  },
+  "img/members/umami.svg": {
+    "local_sha256": "2436f1df97e1a01bbc69122e93f00d37725cc4ba6b73568346dde04f8ac36d67",
+    "remote_sha256": null
+  },
+  "img/members/zabbix-scene.svg": {
+    "local_sha256": "37c8cff8dc7a17208fe4ae7172eb153d3a8e334562e06721b004ec8e68872329",
+    "remote_sha256": null
+  },
+  "img/members/zabbix.svg": {
+    "local_sha256": "4e39a57edc3a1caf4c3b75211989e6a712873511e40836aaa13148ad1dc34262",
+    "remote_sha256": null
+  },
+  "img/members/g1crm-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "2baee73842bd11a993814d3e46611e899e9d61d0067e20bfa3e4a6568e46df77"
+  },
+  "img/members/g1profil-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "f2575bfcbce03a8441f5af2be498fa95d9daec3c711ae2623b5b35a0000c020b"
+  },
+  "img/members/sentinet-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "e0278186655df16dffbd7df6d1834e6f9ce911e5a32cfa33d6b426f1ee33793c"
+  },
+  "img/members/livemonitor-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "fc031eff3b3428cbebbfd0f583897796a2aecef8faf99f2be739a909e80eab3a"
+  },
+  "img/members/umami-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "8526b65f025909e858ececcf266d57c517fb6e32c5d139c383c3407e60b8f104"
+  },
+  "img/members/cloud-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "6dbcbdb6ad460436bca4898147ae444a27f0d04eb9cd6c5f06bdc0fd732ad142"
+  },
+  "img/members/n8n-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "88c0bd77e512b50c05f50b3b5a57ab40cce9243b1b52eaae6cac2bfe3f33f2f7"
+  },
+  "img/members/omniroute-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "f2508d3cca4eb8be6e4268a1f250eb9191b92c2e4d80a9f73e9e79f77a853c9e"
+  },
+  "img/members/zabbix-landing.png": {
+    "remote_sha256": null,
+    "local_sha256": "ee87de9b78c6e87c142d8b44f4cb83ebd39e89d73b8b99cb082bf0d8c0ad9d7c"
+  }
+}

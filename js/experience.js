@@ -22,15 +22,16 @@
   let rotation=-.60, activeApp=null, hoveredApp=null;
   const universe=document.querySelector('.universe');
   const satellites=Array.from(document.querySelectorAll('.app-satellite'));
-  const appColors=['#65dca0','#699bff','#f0bc66','#bb94ff'];
-  const bodies=satellites.map((element,i)=>({element,time:i*.83,period:4.2+i*.47,w:0,h:0,impact:null}));
-  const sphereRadius=()=>Math.min(width,height)*.43;
+  const appColors=satellites.map((element,i)=>element.dataset.color || `hsl(${i*360/satellites.length} 70% 72%)`);
+  const bodies=satellites.map((element,i)=>({element,time:i*.83,period:4.2+i*.47,w:0,h:0,impact:null,
+    angle:(Number.isFinite(Number(element.dataset.angle)) ? Number(element.dataset.angle) : -90+i*360/satellites.length)*Math.PI/180}));
+  const sphereRadius=()=>Math.min(width,height)*.36;
   function moveSatellites() {
     if(!width || !height) return;
     bodies.forEach((body,i)=>{
       const t=(body.time/body.period)%1;
-      const angle=(width<380?[-116,-64,116,64]:[-122,-58,122,58])[i]*Math.PI/180;
-      const tilt=([ -9,9,-7,8 ][i]+Math.sin(t*Math.PI*2)*5)*Math.PI/180;
+      const angle=body.angle;
+      const tilt=((Math.cos(angle)<-.1?-7:Math.cos(angle)>.1?7:0)+Math.sin(t*Math.PI*2)*4)*Math.PI/180;
       const nx=Math.cos(angle),ny=Math.sin(angle),r=sphereRadius();
       const localAngle=angle-tilt;
       // Distance from the sphere centre to a rotated rectangular card.
@@ -146,7 +147,7 @@
   }
   function drawLogo(ctx,cx,cy) {
     if (!logo) return;
-    const logoWidth=Math.min(width*.70,height*.70);
+    const logoWidth=sphereRadius()*1.63;
     const logoHeight=logoWidth*logo.height/logo.width;
     const depth=logoWidth*.35;
     const yaw=rotation+cameraX*.22;
@@ -248,7 +249,7 @@
       phase+=delta*.0003;
       bodies.forEach(body=>{if(body.element!==activeApp) body.time+=delta/1000});
       if(activeApp) {
-        const target=satellites.indexOf(activeApp)%2===0?-.65:.65;
+        const target=Math.cos(bodies[satellites.indexOf(activeApp)].angle)*.75;
         const difference=Math.atan2(Math.sin(target-rotation),Math.cos(target-rotation));
         rotation+=difference*(1-Math.exp(-delta*.004));
       } else rotation=(rotation+delta*.000225)%(Math.PI*2);

@@ -1,0 +1,35 @@
+
+installDevAntiq(app, {
+  appId:'sentinet',configPath:path.join(__dirname,'devantiq-sso/client.json'),
+  parseForm:express.urlencoded({extended:false,limit:'2kb'}),
+  resolveIdentity:async claims => {
+    if (!/^dv-[a-f0-9]{32}$/.test(claims.external_account)) throw new Error('Unapproved account');
+    let user = db.users.find(row => row.devantiqSubject === claims.sub);
+    if (user && String(user.id) !== claims.external_account) throw new Error('Identity changed');
+    if (!user) {
+      if (db.users.some(row => String(row.id) === claims.external_account || row.email === claims.external_account+'@members.invalid')) throw new Error('Account collision');
+      user = {id:claims.external_account,devantiqSubject:claims.sub,name:claims.name || 'Membre DevAntiq',
+        email:claims.external_account+'@members.invalid',role:'viewer',status:'active',mfa:false,
+        passwordHash:auth.hashPassword(require('crypto').randomBytes(48).toString('hex'))};
+      db.users.push(user);
+      try { fs.writeFileSync(DB_PATH, JSON.stringify({alerts:db.alerts.slice(0,10000),blocks:db.blocks,users:db.users},null,2)); }
+      catch(error) { db.users.splice(db.users.indexOf(user),1); throw error; }
+    }
+    if (user.status !== 'active') throw new Error('Account disabled');
+    if (user.mfa && !user.mfaSecret) throw new Error('MFA enrollment incomplete');
+    return {
+      verifyMfa:user.mfa ? code => totpVerify(user.mfaSecret,code) : undefined,
+      issueSession:() => ({sentinet_token:auth.signToken({scope:'session',uid:user.id,email:user.email,
+        role:user.role,name:user.name,devantiq_sub:claims.sub,devantiq_account:claims.external_account})}),
+    };
+  },
+});
+// The existing SentiNet API does not enforce roles on its management routes.
+// Keep dedicated SSO members read-only until granular role enforcement exists.
+app.use('/api',(req,res,next) => {
+  const token = auth.extractToken(req);
+  const payload = auth.verifyToken(token);
+  if (payload?.devantiq_sub && !['GET','HEAD','OPTIONS'].includes(req.method)
+      && req.path !== '/auth/logout') return res.status(403).json({error:'Acces membre en lecture seule.'});
+  next();
+});

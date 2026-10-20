@@ -1,0 +1,30 @@
+
+// DevAntiq SSO: dedicated accounts only, no email-based account linking.
+installDevAntiq(app, {
+  appId: 'g1crm', configPath: new URL('./devantiq-sso/client.json', import.meta.url),
+  parseForm: express.urlencoded({ extended: false, limit: '2kb' }),
+  resolveIdentity: async claims => {
+    if (!/^dv-[a-f0-9]{32}$/.test(claims.external_account)) throw new Error('Unapproved account');
+    const connection = await pool.connect();
+    let user;
+    try {
+      await connection.query('BEGIN');
+      await connection.query('CREATE TABLE IF NOT EXISTS devantiq_identities (subject TEXT PRIMARY KEY, user_id TEXT UNIQUE NOT NULL REFERENCES users(id))');
+      await connection.query('SELECT pg_advisory_xact_lock(hashtext($1))', ['devantiq:' + claims.sub]);
+      const link = (await connection.query('SELECT user_id FROM devantiq_identities WHERE subject=$1', [claims.sub])).rows[0];
+      if (link && link.user_id !== claims.external_account) throw new Error('Identity changed');
+      if (!link) {
+        const hash = await bcrypt.hash(crypto.randomBytes(48).toString('hex'), 12);
+        await connection.query('INSERT INTO users(id,email,name,password_hash,role) VALUES($1,$2,$3,$4,$5)',
+          [claims.external_account, claims.external_account + '@members.invalid', claims.name || 'Membre DevAntiq', hash, 'user']);
+        await connection.query('INSERT INTO devantiq_identities(subject,user_id) VALUES($1,$2)', [claims.sub, claims.external_account]);
+      }
+      user = (await connection.query('SELECT * FROM users WHERE id=$1', [claims.external_account])).rows[0];
+      if (!user) throw new Error('Account missing');
+      await connection.query('COMMIT');
+    } catch (error) { await connection.query('ROLLBACK'); throw error; }
+    finally { connection.release(); }
+    return { issueSession: () => ({ g1crm_token: jwt.sign({ sub:user.id, email:user.email, role:user.role,
+      devantiq_sub:claims.sub, devantiq_account:claims.external_account }, effectiveSecret, {expiresIn:'8h'}) }) };
+  },
+});

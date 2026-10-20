@@ -158,8 +158,8 @@
 </style>
 <!-- Umami analytics -->
 <script defer src="https://umami.devantiq.com/script.js" data-website-id="9c57faa0-e923-4f9f-880c-0a1559312f1f"></script>
-<link rel="stylesheet" href="./css/experience.css?v=20261013-13">
-<script defer src="./js/experience.js?v=20261013-13"></script>
+<link rel="stylesheet" href="./css/experience.css?v=20261018-portfolio2">
+<script defer src="./js/experience.js?v=20261018-portfolio2"></script>
 </head>
 <body>
 <a class="skip-link" href="#services">Aller au contenu</a>
@@ -171,26 +171,28 @@
       <img src="./img/devantiq-logo.png" alt="DevAntiq" class="h-10 w-auto">
       <span class="display text-xl font-bold">DevAntiq</span>
     </a>
-    <ul class="hidden md:flex items-center gap-8 text-sm text-[var(--muted)]">
+    <ul class="hidden lg:flex items-center gap-8 text-sm text-[var(--muted)]">
       <li><a href="#services" class="nav-link hover:text-white">Services</a></li>
       <li><a href="#about" class="nav-link hover:text-white">À propos</a></li>
       <li><a href="#projects" class="nav-link hover:text-white">Réalisations</a></li>
       <li><a href="#process" class="nav-link hover:text-white">Méthode</a></li>
+      <li><a href="membres.html" class="nav-link hover:text-white">Espace membres</a></li>
       <li><a href="#contact" class="nav-link hover:text-white">Contact</a></li>
     </ul>
-    <a href="#contact" class="hidden md:inline-block btn-primary px-5 py-2.5 rounded-full text-sm">Démarrer un projet</a>
-    <button aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu" id="menuBtn" class="md:hidden flex flex-col gap-1.5 p-2">
+    <a href="#contact" class="hidden lg:inline-block btn-primary px-5 py-2.5 rounded-full text-sm">Démarrer un projet</a>
+    <button aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileMenu" id="menuBtn" class="lg:hidden flex flex-col gap-1.5 p-2">
       <span class="bar1 w-6 h-0.5 bg-white transition-all"></span>
       <span class="bar2 w-6 h-0.5 bg-white transition-all"></span>
       <span class="bar3 w-6 h-0.5 bg-white transition-all"></span>
     </button>
   </nav>
-  <div id="mobileMenu" class="md:hidden hidden glass mx-4 rounded-2xl p-6 mt-2">
+  <div id="mobileMenu" class="lg:hidden hidden glass mx-4 rounded-2xl p-6 mt-2">
     <ul class="flex flex-col gap-4 text-[var(--muted)]">
       <li><a href="#services" class="block hover:text-white">Services</a></li>
       <li><a href="#about" class="block hover:text-white">À propos</a></li>
       <li><a href="#projects" class="block hover:text-white">Réalisations</a></li>
       <li><a href="#process" class="block hover:text-white">Méthode</a></li>
+      <li><a href="membres.html" class="block hover:text-white">Espace membres</a></li>
       <li><a href="#contact" class="block hover:text-white">Contact</a></li>
     </ul>
   </div>
@@ -212,7 +214,7 @@
       </div>
       <div class="hero-proof">Web, mobile &amp; desktop <span aria-hidden="true">/</span> Du concept au lancement</div>
     </div>
-    <div class="universe" aria-label="Découvrez les quatre applications DevAntiq">
+    <div class="universe" aria-label="Découvrez les six applications DevAntiq">
       <div class="universe-scene">
         <div class="core-glow" aria-hidden="true"></div>
         <div class="orbit" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
@@ -225,10 +227,12 @@
           </div>
         </div>
 
-        <a href="g1sport.html" class="app-satellite satellite-sport"><img src="./img/g1sport-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Sport</strong><small>Sport &amp; coaching</small></span></a>
-        <a href="g1club.html" class="app-satellite satellite-club"><img src="./img/logo-g1club.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Club</strong><small>La vie de votre club</small></span></a>
-        <a href="noteazy.html" class="app-satellite satellite-note"><img src="./img/noteazy-new_logo.png" alt="" draggable="false" width="43" height="43"><span><strong>Noteazy</strong><small>Vos idées, organisées</small></span></a>
-        <a href="g1oeil.html" class="app-satellite satellite-eye"><img src="./img/g1oeil-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Oeil</strong><small>Supervision en direct</small></span></a>
+        <a href="g1sport.html" class="app-satellite satellite-sport" data-angle="-130" data-color="#65dca0"><img src="./img/g1sport-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Sport</strong><small>Sport &amp; coaching</small></span></a>
+        <a href="g1club.html" class="app-satellite satellite-club" data-angle="-50" data-color="#699bff"><img src="./img/logo-g1club.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Club</strong><small>La vie de votre club</small></span></a>
+        <a href="noteazy.html" class="app-satellite satellite-note" data-angle="130" data-color="#f0bc66"><img src="./img/noteazy-new_logo.png" alt="" draggable="false" width="43" height="43"><span><strong>Noteazy</strong><small>Vos idées, organisées</small></span></a>
+        <a href="g1oeil.html" class="app-satellite satellite-eye" data-angle="50" data-color="#bb94ff"><img src="./img/g1oeil-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Oeil</strong><small>Supervision en direct</small></span></a>
+        <a href="mycareer.html" class="app-satellite satellite-career" data-angle="-90" data-color="#38bdf8"><img src="img/mycareer-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>MyCareer</strong><small>Votre parcours sportif</small></span></a>
+        <a href="g1tournoi.html" class="app-satellite satellite-tournament" data-angle="90" data-color="#f5c451"><img src="img/g1tournoi-logo.png" alt="" draggable="false" width="43" height="43"><span><strong>G1Tournoi</strong><small>Du match à la finale</small></span></a>
       </div>
       <div class="scene-caption">De l’imagination à l’interaction.</div>
     </div>
@@ -373,7 +377,7 @@
   <div class="grid md:grid-cols-2 gap-6">
 
     <!-- G1Sport -->
-    <a href="g1sport.html" class="block glass rounded-2xl project-card card-hover reveal">
+    <article id="projet-g1sport" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
         <div class="project-bg-pattern" data-depth="true"></div>
         <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1sport/Tableau-de-bord-C.png" alt="" loading="lazy" width="1280" height="800"></div>
@@ -390,12 +394,12 @@
           <span class="project-tag glass">Suivi perf</span>
           <span class="project-tag glass">Messagerie</span>
         </div>
-        <span class="inline-flex items-center gap-2 mt-6 text-sm font-semibold" style="color:#22c55e">Voir le projet <span>&rarr;</span></span>
+        <div class="project-actions"><a class="project-detail" href="g1sport.html" aria-label="Découvrir le projet G1Sport">Voir le projet →</a><a class="project-access" href="https://g1sport.fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir G1Sport dans un nouvel onglet">Ouvrir l’application ↗</a></div>
       </div>
-    </a>
+    </article>
 
     <!-- G1Club -->
-    <a href="g1club.html" class="block glass rounded-2xl project-card card-hover reveal">
+    <article id="projet-g1club" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
         <div class="project-bg-pattern" data-depth="true"></div>
         <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1club/Tableau-de-bord.png" alt="" loading="lazy" width="1280" height="800"></div>
@@ -412,12 +416,12 @@
           <span class="project-tag glass">Sécurisé</span>
           <span class="project-tag glass">Football</span>
         </div>
-        <span class="inline-flex items-center gap-2 mt-6 text-sm font-semibold" style="color:#3b82f6">Voir le projet <span>&rarr;</span></span>
+        <div class="project-actions"><a class="project-detail" href="g1club.html" aria-label="Découvrir le projet G1Club">Voir le projet →</a><a class="project-access" href="https://g1club.fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir G1Club dans un nouvel onglet">Ouvrir l’application ↗</a></div>
       </div>
-    </a>
+    </article>
 
     <!-- G1Oeil -->
-    <a href="g1oeil.html" class="block glass rounded-2xl project-card card-hover reveal">
+    <article id="projet-g1oeil" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
         <div class="project-bg-pattern" data-depth="true"></div>
         <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/g1oeil/Dashboard.png" alt="" loading="lazy" width="1280" height="800"></div>
@@ -435,12 +439,12 @@
           <span class="project-tag glass">Alertes</span>
           <span class="project-tag glass">Image diff</span>
         </div>
-        <span class="inline-flex items-center gap-2 mt-6 text-sm font-semibold" style="color:#a855f7">Voir le projet <span>&rarr;</span></span>
+        <div class="project-actions"><a class="project-detail" href="g1oeil.html" aria-label="Découvrir le projet G1Oeil">Voir le projet →</a><a class="project-access" href="downloads/g1oeil/G1Oeil-Setup-1.0.0.exe" download aria-label="Télécharger G1Oeil pour Windows">Télécharger pour Windows ↓</a></div>
       </div>
-    </a>
+    </article>
 
     <!-- Noteazy -->
-    <a href="noteazy.html" class="block glass rounded-2xl project-card card-hover reveal">
+    <article id="projet-noteazy" class="block glass rounded-2xl project-card card-hover reveal">
       <div class="project-visual">
         <div class="project-bg-pattern" data-depth="true"></div>
         <div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="./caroussel/noteazy/dashboard.png" alt="" loading="lazy" width="1280" height="800"></div>
@@ -458,9 +462,19 @@
           <span class="project-tag glass">Terminal</span>
           <span class="project-tag glass">Dashboard</span>
         </div>
-        <span class="inline-flex items-center gap-2 mt-6 text-sm font-semibold" style="color:#f59e0b">Voir le projet <span>&rarr;</span></span>
+        <div class="project-actions"><a class="project-detail" href="noteazy.html" aria-label="Découvrir le projet Noteazy">Voir le projet →</a><a class="project-access" href="downloads/noteazy/NotEazy-Setup-1.0.37.exe" download aria-label="Télécharger Noteazy pour Windows">Télécharger pour Windows ↓</a></div>
       </div>
-    </a>
+    </article>
+
+    <article id="projet-mycareer" class="block glass rounded-2xl project-card card-hover reveal">
+      <div class="project-visual"><div class="project-bg-pattern" data-depth="true"></div><div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="caroussel/mycareer/accueil.png" alt="" loading="lazy" width="1280" height="800"></div><div class="project-orb" style="width:220px;height:220px;background:#38bdf8;top:-60px;right:-40px"></div><span class="project-tag" style="position:absolute;top:16px;left:16px;color:#38bdf8">Votre passeport sportif numérique</span><img src="img/mycareer-logo.png" alt="MyCareer" class="project-logo" loading="lazy"><span class="text-xs tracking-[.2em] text-[var(--muted)] mt-3 z-10">MYCAREER</span></div>
+      <div class="p-6"><h3 class="text-lg font-semibold mb-2">MyCareer — Votre passeport sportif numérique</h3><p class="text-sm text-[var(--muted)] mb-4">Réunissez votre parcours, vos rencontres, vos statistiques et vos souvenirs sportifs dans un espace personnel. MyCareer accompagne les athlètes et leurs proches dans le suivi de leur progression.</p><div class="flex flex-wrap gap-2"><span class="project-tag glass">Carrière</span><span class="project-tag glass">Multisport</span><span class="project-tag glass">Statistiques</span></div><div class="project-actions"><a class="project-detail" href="mycareer.html" aria-label="Découvrir le projet MyCareer">Voir le projet →</a><a class="project-access" href="http://82.165.216.34/fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir MyCareer dans un nouvel onglet">Ouvrir l’application ↗</a></div></div>
+    </article>
+
+    <article id="projet-g1tournoi" class="block glass rounded-2xl project-card card-hover reveal">
+      <div class="project-visual"><div class="project-bg-pattern" data-depth="true"></div><div class="project-screen" aria-hidden="true"><div class="screen-toolbar"><i></i><i></i><i></i><span>DEVANTIQ / APPLICATION</span></div><img src="caroussel/g1tournoi/accueil.png" alt="" loading="lazy" width="1280" height="800"></div><div class="project-orb" style="width:220px;height:220px;background:#f5c451;top:-60px;right:-40px"></div><span class="project-tag" style="position:absolute;top:16px;left:16px;color:#f5c451">Organisation de tournois sportifs</span><img src="img/g1tournoi-logo.png" alt="G1Tournoi" class="project-logo" loading="lazy"><span class="text-xs tracking-[.2em] text-[var(--muted)] mt-3 z-10">G1TOURNOI</span></div>
+      <div class="p-6"><h3 class="text-lg font-semibold mb-2">G1Tournoi — Organisation de tournois sportifs</h3><p class="text-sm text-[var(--muted)] mb-4">Organisez vos tournois, inscrivez les équipes et retrouvez poules, planning, résultats et tableau final au même endroit. Les participants et le public suivent les rencontres et les annonces.</p><div class="flex flex-wrap gap-2"><span class="project-tag glass">Tournois</span><span class="project-tag glass">Planning</span><span class="project-tag glass">Résultats</span></div><div class="project-actions"><a class="project-detail" href="g1tournoi.html" aria-label="Découvrir le projet G1Tournoi">Voir le projet →</a><a class="project-access" href="https://g1tournoi.fr" target="_blank" rel="noopener noreferrer" aria-label="Ouvrir G1Tournoi dans un nouvel onglet">Ouvrir l’application ↗</a></div></div>
+    </article>
 
   </div>
 </section>

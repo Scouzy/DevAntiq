@@ -1,0 +1,29 @@
+
+installDevAntiq(app, {
+  appId: 'g1profil', configPath: new URL('./devantiq-sso/client.json', import.meta.url),
+  parseForm: express.urlencoded({ extended: false, limit: '2kb' }),
+  resolveIdentity: async claims => {
+    if (!/^dv-[a-f0-9]{32}$/.test(claims.external_account)) throw new Error('Unapproved account');
+    db.exec('CREATE TABLE IF NOT EXISTS devantiq_identities (subject TEXT PRIMARY KEY, user_id TEXT UNIQUE NOT NULL REFERENCES users(id))');
+    const row = db.transaction(() => {
+      const link = db.prepare('SELECT user_id FROM devantiq_identities WHERE subject=?').get(claims.sub);
+      if (link && link.user_id !== claims.external_account) throw new Error('Identity changed');
+      if (!link) {
+        const timestamp = nowIso();
+        db.prepare('INSERT INTO users(id,email,password_hash,full_name,role,is_active,created_at,updated_at) VALUES(?,?,?,?,?,1,?,?)')
+          .run(claims.external_account, claims.external_account+'@members.invalid', hashPassword(devantiqRandomBytes(48).toString('hex')),
+            claims.name || 'Membre DevAntiq', 'user', timestamp, timestamp);
+        db.prepare('INSERT INTO devantiq_identities(subject,user_id) VALUES(?,?)').run(claims.sub, claims.external_account);
+        writeSnapshot(db, claims.external_account, {templates:DEFAULT_TEMPLATES,settings:defaultSettings('')});
+      }
+      const user = db.prepare('SELECT * FROM users WHERE id=?').get(claims.external_account);
+      if (!user?.is_active) throw new Error('Account disabled');
+      return user;
+    })();
+    return { issueSession: () => ({
+      g1profil_access_token: signToken({sub:row.id,email:row.email,role:row.role,
+        devantiq_sub:claims.sub,devantiq_account:claims.external_account},config.jwtSecret,28800),
+      g1profil_refresh_token:null, g1profil_session_user:JSON.stringify(publicUser(row)),
+    }) };
+  },
+});

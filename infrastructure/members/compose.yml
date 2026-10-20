@@ -1,0 +1,16 @@
+services:
+  members:
+    build: ./service
+    restart: unless-stopped
+    ports:
+      - '127.0.0.1:9092:9092'
+    volumes:
+      - ./config:/run/devantiq:ro
+      - ./data:/data
+      - ./static:/app/staticfiles
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777,size=64m
