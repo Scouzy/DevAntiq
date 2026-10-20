@@ -149,34 +149,43 @@
     if (!logo) return;
     const logoWidth=sphereRadius()*1.63;
     const logoHeight=logoWidth*logo.height/logo.width;
-    const depth=logoWidth*.35;
+    const depth=logoWidth*.22;
     const yaw=rotation+cameraX*.22;
     const pitch=-.24+cameraY*.15+(activeApp && !paused ? (satellites.indexOf(activeApp)>1?.10:-.10) : 0);
     const cosY=Math.cos(yaw),sinY=Math.sin(yaw),cosX=Math.cos(pitch),sinX=Math.sin(pitch);
     const front=cosY>=0;
     // Parallel projection keeps the brand proportions exact on each face.
     // Every slice is shifted along the rotated Z axis, so the sides remain solid.
-    function plane(image,z,mirror=false,brightness=1,size=1) {
+    function plane(image,z,mirror=false,brightness=1,size=1,solidSlice=false) {
       ctx.save();
       ctx.translate(cx+sinY*z,cy-cosY*sinX*z);
-      ctx.transform(cosY,sinY*sinX,0,cosX,0,0);
+      // Keep extrusion slices overlapping at profile: a zero-width affine
+      // projection otherwise makes every slice disappear on the same frame.
+      const projectedX=solidSlice
+        ? (front?1:-1)*Math.max(Math.abs(cosY),2/(logoWidth*size))
+        : cosY;
+      ctx.transform(projectedX,sinY*sinX,0,cosX,0,0);
       if(mirror) ctx.scale(-1,1);
       ctx.scale(size,size);
       ctx.filter=brightness===1?'none':`brightness(${brightness})`;
       ctx.drawImage(image,-logoWidth/2,-logoHeight/2,logoWidth,logoHeight);
       ctx.restore();
     }
-    const slices=Math.ceil(depth*1.5);
+    const slices=Math.ceil(depth*2);
     for(let i=0;i<=slices;i++) {
       const t=i/slices, z=(front?t-.5:.5-t)*depth;
-      // Broad rounded shoulders over the outer 28% of each extrusion end.
-      const bevel=Math.max(0,(Math.abs(2*t-1)-.44)/.56);
+      // Rounded shoulders span 40% at each end, leaving a short central edge.
+      const bevel=Math.max(0,(Math.abs(2*t-1)-.20)/.80);
       const size=.90+.10*Math.sqrt(Math.max(0,1-bevel*bevel));
       // A tight highlight band leaves most of the rounded black shoulder exposed.
       const highlight=bevel>0?Math.exp(-Math.pow((bevel-.78)/.065,2)):0;
-      plane(side[Math.round(highlight*15)],z,false,1,size);
+      plane(side[Math.round(highlight*15)],z,false,1,size,true);
     }
     const faceZ=(front?1:-1)*(depth/2+.8);
+    // Fade the face smoothly into the black edge before swapping front/back.
+    const faceVisibility=Math.min(1,Math.abs(cosY)/.10);
+    ctx.save();
+    ctx.globalAlpha*=faceVisibility*faceVisibility*(3-2*faceVisibility);
     plane(logo,faceZ,!front,1.1,.90);
     // Moving blue specular reflection, clipped to the face rather than a rectangle.
     const shine=reflection.getContext('2d');
@@ -191,6 +200,7 @@
       shine.fillStyle=light;shine.fillRect(0,0,reflection.width,reflection.height);
       plane(reflection,faceZ+(front?1:-1)*.1,!front,1,.90);
     }
+    ctx.restore();
   }
   function drawAppConnection(ctx,cx,cy) {
     if(!activeApp) return;

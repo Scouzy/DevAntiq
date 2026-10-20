@@ -6,7 +6,7 @@ if (-not $sshDir) { throw 'Client SSH introuvable.' }
 $ssh = Join-Path $sshDir 'ssh.exe'
 $scp = Join-Path $sshDir 'scp.exe'
 $files = @('css/membres.css','js/membres.js','js/membres-motion.js','membres.html')
-if ($IncludeHome) { $files = @('css/experience.css') + $files + @('index.html') }
+if ($IncludeHome) { $files = @('css/experience.css','js/experience.js') + $files + @('index.html') }
 $remoteFiles = $files -join ' '
 $localFiles = @()
 $checks = @()
