@@ -18,6 +18,7 @@
   // Render the original alpha silhouette as a solid stack in camera space.
   // This avoids flattened CSS masking/compositing in nested 3D containers.
   let logo = null, side = null, reflection = null;
+  const profileBuffers=Array.from({length:3},()=>document.createElement('canvas'));
   let pointerX=0, pointerY=0, cameraX=0, cameraY=0;
   let rotation=-.60, activeApp=null, hoveredApp=null;
   const universe=document.querySelector('.universe');
@@ -145,14 +146,43 @@
     };
     source.src='./img/devantiq-logo.png';
   }
-  function drawLogo(ctx,cx,cy) {
+  function drawLogo(ctx,cx,cy,profileYaw=null) {
     if (!logo) return;
     const logoWidth=sphereRadius()*1.63;
     const logoHeight=logoWidth*logo.height/logo.width;
     const depth=logoWidth*.22;
-    const yaw=rotation+cameraX*.22;
+    const yaw=profileYaw===null?rotation+cameraX*.22:profileYaw;
     const pitch=-.24+cameraY*.15+(activeApp && !paused ? (satellites.indexOf(activeApp)>1?.10:-.10) : 0);
     const cosY=Math.cos(yaw),sinY=Math.sin(yaw),cosX=Math.cos(pitch),sinX=Math.sin(pitch);
+    // Blend complete silhouettes around profile, not individual translucent
+    // slices. Reversing their painter order in one frame causes a visible pop.
+    const profileBand=.055, profileLimit=Math.sin(profileBand);
+    if(profileYaw===null && Math.abs(cosY)<profileLimit) {
+      const span=Math.ceil(Math.max(logoWidth,logoHeight)+depth*2+12);
+      const ratio=Math.min(devicePixelRatio || 1,2);
+      const pixels=Math.ceil(span*ratio);
+      const buffers=profileBuffers.map(buffer=>{
+        if(buffer.width!==pixels || buffer.height!==pixels) {buffer.width=pixels;buffer.height=pixels}
+        const painter=buffer.getContext('2d');
+        painter.setTransform(ratio,0,0,ratio,0,0);
+        painter.clearRect(0,0,span,span);
+        return painter;
+      });
+      const direction=sinY>=0?1:-1, edge=direction*Math.PI/2;
+      drawLogo(buffers[0],span/2,span/2,edge-direction*profileBand);
+      drawLogo(buffers[1],span/2,span/2,edge+direction*profileBand);
+      const mix=(cosY/profileLimit+1)/2;
+      const blend=buffers[2];
+      blend.save();
+      blend.globalAlpha=mix;
+      blend.drawImage(profileBuffers[0],0,0,span,span);
+      blend.globalCompositeOperation='lighter';
+      blend.globalAlpha=1-mix;
+      blend.drawImage(profileBuffers[1],0,0,span,span);
+      blend.restore();
+      ctx.drawImage(profileBuffers[2],cx-span/2,cy-span/2,span,span);
+      return;
+    }
     const front=cosY>=0;
     // Parallel projection keeps the brand proportions exact on each face.
     // Every slice is shifted along the rotated Z axis, so the sides remain solid.
