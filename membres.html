@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#100c21">
+  <title>Espace membres | DevAntiq</title>
+  <meta name="description" content="Retrouvez les applications de votre espace DevAntiq.">
+  <link rel="icon" href="/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/membres.css?v=20261021-depth3">
+  <script src="js/membres-motion.js?v=20261021-depth1" defer></script>
+  <script src="js/membres.js?v=20261021-members6" defer></script>
+</head>
+<body class="members-page">
+  <div class="member-atmosphere" aria-hidden="true"><i></i><i></i><div class="member-floor"></div></div>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <header class="shell topbar">
+    <a class="brand" href="index.html"><img src="img/devantiq-logo.png" alt="" width="52" height="36">DevAntiq</a>
+    <div class="member-nav"><button id="member-motion" type="button" aria-pressed="false" hidden>Mettre en pause</button><a class="back" href="index.html">← Retour au studio</a></div>
+  </header>
+  <main id="main" class="shell">
+    <section class="intro">
+      <div><p class="eyebrow">VOTRE ESPACE DEVANTIQ</p><h1>Vos outils.<br><span>Un point de départ.</span></h1>
+      <p class="lead">Retrouvez vos applications et accédez à vos espaces de travail avec votre compte DevAntiq.</p>
+      <div class="member-pillars"><span><b>01</b> Un compte</span><span><b>02</b> Vos accès</span><span><b>03</b> Vos outils</span></div></div>
+      <div class="account-stage">
+        <div class="member-orb" aria-hidden="true"><div class="orb-ring"></div><div class="orb-ring ring-cross"></div><div class="orb-core"><img src="img/devantiq-logo.png" alt="" width="112" height="78"></div><span class="orb-node node-one"></span><span class="orb-node node-two"></span></div>
+      <aside class="account" aria-labelledby="account-title">
+        <span class="account-icon" aria-hidden="true">↗</span>
+        <h2 id="account-title">Votre compte membre</h2>
+        <p id="session-status" role="status" aria-live="polite">Vérification de votre connexion…</p>
+        <a id="login" class="button" hidden href="/auth/?next=/membres.html">Se connecter →</a>
+        <a id="account" class="button secondary" hidden href="/auth/account/">Mon compte et mon mot de passe</a>
+        <a id="admin" class="button secondary" hidden href="/auth/admin/">Administrer les membres ↗</a>
+        <form id="logout" method="post" action="/auth/logout/" hidden><input id="csrf-token" type="hidden" name="csrfmiddlewaretoken"><button class="button quiet" type="submit">Se déconnecter</button></form>
+        <button id="retry" class="button secondary" type="button" hidden>Réessayer</button>
+        <a class="support" href="mailto:hello@devantiq.com?subject=Acc%C3%A8s%20membre%20DevAntiq">Demander un compte ou un accès</a>
+      </aside>
+      </div>
+    </section>
+    <section aria-labelledby="apps-title">
+      <div class="catalog-heading"><div><p class="eyebrow">LES APPLICATIONS</p><h2 id="apps-title">Votre boîte à outils</h2></div><span id="access-count" class="count">9 applications</span></div>
+      <p id="catalog-note" class="catalog-note">Connectez-vous pour ouvrir les applications autorisées pour votre compte.</p>
+      <div class="catalog-filters" role="group" aria-label="Filtrer les applications"><button id="filter-all" type="button" aria-pressed="true">Toutes les applications</button><button id="filter-mine" type="button" aria-pressed="false" disabled>Mes accès</button></div>
+      <label class="search-label" for="search">Rechercher une application</label>
+      <input id="search" type="search" placeholder="Nom de l’application…" autocomplete="off">
+      <div id="applications" class="app-grid"></div>
+      <p id="empty" hidden role="status">Aucune application ne correspond à votre recherche.</p>
+      <noscript><p>Activez JavaScript pour afficher le catalogue, ou <a href="https://devantiq.com/auth/">ouvrez la connexion DevAntiq</a>.</p></noscript>
+    </section>
+  </main>
+  <footer class="shell">DevAntiq <span>Des applications pour avancer.</span></footer>
+</body>
+</html>

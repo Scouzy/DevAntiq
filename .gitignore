@@ -2,6 +2,19 @@
 node_modules/
 .scrape/
 *.log
+.env
+.env.*
+!*.example
+/infrastructure/members/config/
+/infrastructure/members/data/
+/infrastructure/members/secrets/
+__pycache__/
+/.site/
+/.vps-inspection/
+/.venv-members/
+/infrastructure/members/adapters/node_modules/
+/infrastructure/members/service/data/
+/infrastructure/members/service/staticfiles/
 # Installateurs transférés séparément sur le VPS.
 /downloads/**/*.exe
 

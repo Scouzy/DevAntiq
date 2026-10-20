@@ -1,0 +1,9 @@
+Bonjour {{ user.get_full_name|default:user.username }},
+
+Votre identifiant DevAntiq : {{ user.username }}
+
+Pour choisir votre mot de passe, ouvrez ce lien valable une heure :
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail.
+L'équipe DevAntiq

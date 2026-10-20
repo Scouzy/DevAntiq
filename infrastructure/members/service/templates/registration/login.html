@@ -1,0 +1,6 @@
+{% extends 'registration/base.html' %}{% block content %}
+<h1>Heureux de vous retrouver.</h1><p class="lead">Connectez-vous pour retrouver les applications attribuées à votre compte.</p>
+{% if request.GET.deconnecte %}<p role="status">Vous êtes déconnecté de DevAntiq.</p>{% endif %}
+<form method="post" class="auth-form">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button class="button" type="submit">Se connecter →</button></form>
+<a class="support" href="{% url 'password_reset' %}">Mot de passe oublié ou première connexion ?</a><p class="catalog-note">Les comptes sont créés par un administrateur. <a href="mailto:hello@devantiq.com">Demander un accès</a></p>
+{% endblock %}

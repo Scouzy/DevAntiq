@@ -29,10 +29,13 @@ jobs:
         with:
           enablement: true
 
+      - name: Prepare public files only
+        run: python3 scripts/stage-site.py
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: '.site'
 
       - name: Deploy to GitHub Pages
         id: deployment
