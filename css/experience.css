@@ -196,3 +196,19 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .brand-stage{width:70%;left:15%}
 @media(max-width:1100px){.universe{height:620px}.app-satellite{width:116px;min-height:96px;flex-direction:column;padding:9px;text-align:center;gap:5px}.app-satellite img{width:30px;height:30px}.app-satellite strong{font-size:12px}.app-satellite small{font-size:9px}.satellite-career,.satellite-tournament{left:calc(50% - 58px)}}
 @media(max-width:700px){.universe{height:520px;max-width:480px}.app-satellite,.glass-physics .app-satellite{width:25%;min-height:92px}.app-satellite img{width:26px;height:26px}.app-satellite strong{font-size:11px}.app-satellite small{font-size:8px}.satellite-career,.satellite-tournament{left:37.5%}.scene-caption{bottom:0}}
+
+/* Home palette matches the authentication page; motion layers stay active. */
+.home-page{--bg:#080d1c;--bg2:#111a2d;--accent:#9cbfff;--muted:#b5c1d9;background:radial-gradient(ellipse at 12% 36%,#123f794d,transparent 48%),radial-gradient(ellipse at 88% 18%,#643b8038,transparent 45%),#080d1c;background-size:100% 100vh;background-repeat:no-repeat}
+.home-page .hero-studio{background:radial-gradient(ellipse at 12% 36%,#123f794d,transparent 48%),radial-gradient(ellipse at 88% 18%,#643b8038,transparent 45%),#080d1c}
+.home-page .hero-film{opacity:.16;filter:hue-rotate(25deg) saturate(.5)}
+.home-page .hero-studio::before{background:linear-gradient(90deg,#080d1c55,transparent 75%),linear-gradient(0deg,#080d1c,transparent 30%)}
+.home-page .hero-studio::after{background:radial-gradient(ellipse at 75% 40%,#3874c612,transparent 55%)}
+.home-page #navbar{background:linear-gradient(#080d1ce8,#080d1c00)}
+.home-page #navbar.scrolled,.home-page #mobileMenu{background:#0c1426f5}
+.home-page .hero-title em,.home-page .grad-text{background-image:linear-gradient(110deg,#c6dfff,#8ebeff 50%,#b5acff);filter:drop-shadow(0 7px 0 #24437344)}
+.home-page .btn-primary{background:linear-gradient(110deg,#8ebeff,#b5acff);color:#0a1630;box-shadow:0 4px 0 #364d86,0 12px 28px #050c2866}
+.home-page .hero-copy{color:#b5c1d9}
+.home-page .core-glow{background:radial-gradient(ellipse,#3776dd22,transparent 65%)}
+.home-page .app-satellite,.home-page .project-card,.home-page #services .card-hover{background:linear-gradient(145deg,#222c46ed,#141b30f5 50%,#161428f5);border-color:#9ab8ee36}
+.home-page .marquee-shell{background:#0b1324!important}
+.home-page #services::before{background:radial-gradient(ellipse at 10% 50%,#123f7926,transparent 65%)}

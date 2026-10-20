@@ -1,4 +1,4 @@
-param([string]$Server = 'root@212.227.39.182')
+param([string]$Server = 'root@212.227.39.182', [switch]$IncludeHome)
 $ErrorActionPreference = 'Stop'
 $project = Split-Path $PSScriptRoot -Parent
 $sshDir = @("$env:WINDIR\Sysnative\OpenSSH", "$env:WINDIR\System32\OpenSSH", 'C:\Program Files\Git\usr\bin') | Where-Object { Test-Path (Join-Path $_ 'ssh.exe') } | Select-Object -First 1
@@ -6,6 +6,8 @@ if (-not $sshDir) { throw 'Client SSH introuvable.' }
 $ssh = Join-Path $sshDir 'ssh.exe'
 $scp = Join-Path $sshDir 'scp.exe'
 $files = @('css/membres.css','js/membres.js','js/membres-motion.js','membres.html')
+if ($IncludeHome) { $files = @('css/experience.css') + $files + @('index.html') }
+$remoteFiles = $files -join ' '
 $localFiles = @()
 $checks = @()
 foreach ($file in $files) {
@@ -21,7 +23,7 @@ $backup = "/var/backups/devantiq/members-design-$token"
 Write-Host '1/3 Preparation. Saisissez le mot de passe SSH.'
 & $ssh $Server "set -eu; test -f /var/www/devantiq/membres.html; test -d /var/www/devantiq/css; test -d /var/www/devantiq/js; mkdir -m 700 '$stage'"
 if ($LASTEXITCODE -ne 0) { throw 'Preparation interrompue. Aucun fichier public modifie.' }
-Write-Host '2/3 Transfert des quatre fichiers. Saisissez le mot de passe SSH.'
+Write-Host '2/3 Transfert des fichiers du design. Saisissez le mot de passe SSH.'
 & $scp @localFiles "${Server}:${stage}/"
 if ($LASTEXITCODE -ne 0) { throw 'Transfert interrompu. Aucun fichier public modifie.' }
 $checksumText = $checks -join "`n"
@@ -33,17 +35,17 @@ sha256sum -c - <<'CHECKSUMS'
 $checksumText
 CHECKSUMS
 cd /var/www/devantiq
-for file in css/membres.css js/membres.js js/membres-motion.js membres.html; do
+for file in $remoteFiles; do
     test ! -L "`$file"
 done
 test ! -L css
 test ! -L js
 mkdir -p '$backup/css' '$backup/js'
 chmod 700 '$backup'
-for file in css/membres.css js/membres.js js/membres-motion.js membres.html; do
+for file in $remoteFiles; do
     if [ -f "`$file" ]; then cp -p -- "`$file" '$backup/'"`$file"; fi
 done
-for file in css/membres.css js/membres.js js/membres-motion.js membres.html; do
+for file in $remoteFiles; do
     name=`$(basename "`$file")
     install -m 644 '$stage/'"`$name" "`$file.$token.part"
     mv -- "`$file.$token.part" "`$file"
@@ -61,3 +63,5 @@ foreach ($file in $files) {
 }
 Write-Host 'Espace Membres publie : https://devantiq.com/membres.html'
 Write-Host 'Aucun service redemarre. Comptes et droits inchanges.'
+
+if ($IncludeHome) { Write-Host 'Accueil publie : https://devantiq.com/' }

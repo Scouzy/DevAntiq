@@ -112,3 +112,14 @@
 @media(max-width:900px){.auth-page .auth-shell{gap:30px}.auth-panel{padding:28px}.auth-universe{padding:0}.auth-sculpture{scale:.85;margin-inline:-20px}.auth-universe h2{font-size:32px}}
 @media(max-width:680px){.auth-page .auth-shell{width:calc(100% - 36px);grid-template-columns:1fr;margin:32px auto 48px;gap:30px}.auth-universe{text-align:center}.auth-universe>.eyebrow{margin:0}.auth-sculpture{height:250px;scale:.78;margin-top:-4px;margin-bottom:-20px}.auth-universe h2{font-size:28px;margin:0}.auth-universe h2 br{display:none}.auth-universe h2 span{display:block}.auth-universe>p:not(.eyebrow),.auth-signature{display:none}.auth-panel{padding:26px 22px;border-radius:24px}.auth-panel-mark{display:none}.auth-page .auth-shell h1{font-size:32px}}
 @media(prefers-reduced-motion:reduce){.auth-emblem{animation:none}}
+
+/* The same blue-night atmosphere as the authentication page. */
+.members-page{--bg:#080d1c;--accent:#9cbfff;--muted:#b5c1d9;background:radial-gradient(ellipse at 12% 36%,#123f794d,transparent 48%),radial-gradient(ellipse at 88% 18%,#643b8038,transparent 45%),#080d1c;background-size:100% 100vh;background-repeat:no-repeat}
+.members-page .member-atmosphere{background:none}
+.members-page .member-atmosphere>i{background:#3763ac12}
+.members-page .member-atmosphere>i:nth-child(2){background:#3763ac16}
+.members-page h1 span{color:#93bfff}
+.members-page .account,.members-page .app-card{background:linear-gradient(145deg,#222c46ed,#141b30f5 50%,#161428f5);border-color:#9ab8ee36}
+.members-page .button:not(.secondary):not(.quiet){background:linear-gradient(110deg,#8ebeff,#b5acff);color:#0a1630;box-shadow:0 4px 0 #364d86,0 12px 25px #050c2866}
+.members-page .button:not(.secondary):not(.quiet):hover{box-shadow:0 6px 0 #364d86,0 16px 28px #458eff25}
+.members-page #search{background:linear-gradient(135deg,#17233a,#0c1426);border-color:#94b9f22b}
