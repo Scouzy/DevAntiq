@@ -15,11 +15,59 @@
   const canvas = document.getElementById('universe-canvas');
   const context = canvas?.getContext('2d');
   let width = 0, height = 0;
-  // Render the original alpha silhouette as a solid stack in camera space.
-  // This avoids flattened CSS masking/compositing in nested 3D containers.
-  let logo = null, side = null, reflection = null;
-  const profileBuffers=Array.from({length:3},()=>document.createElement('canvas'));
-  let pointerX=0, pointerY=0, cameraX=0, cameraY=0;
+  // Extrude the original alpha contour into connected side surfaces.
+  let logo = null, litLogo = null, reflection = null, contours=[], sideMesh=[];
+  // Trace the alpha boundary once, then join rings into real side surfaces.
+  // Unlike stacked sprites, these surfaces retain their area exactly at profile.
+  function traceContours(mask) {
+    const step=1, w=mask.width, h=mask.height;
+    const rgba=mask.getContext('2d').getImageData(0,0,mask.width,mask.height).data;
+    const filled=(x,y)=>x>=0 && y>=0 && x<w && y<h &&
+      rgba[(y*mask.width+x)*4+3]>127;
+    const edges=new Map(),key=(x,y)=>x+','+y;
+    const edge=(x,y,u,v)=>{const k=key(x,y);if(!edges.has(k)) edges.set(k,[]);edges.get(k).push([u,v])};
+    for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(filled(x,y)) {
+      if(!filled(x,y-1)) edge(x,y,x+1,y);
+      if(!filled(x+1,y)) edge(x+1,y,x+1,y+1);
+      if(!filled(x,y+1)) edge(x+1,y+1,x,y+1);
+      if(!filled(x-1,y)) edge(x,y+1,x,y);
+    }
+    function simplify(points) {
+      if(points.length<=2) return points;
+      const a=points[0],b=points[points.length-1],dx=b[0]-a[0],dy=b[1]-a[1],length=dx*dx+dy*dy;
+      let best=1.2*1.2,index=-1;
+      for(let i=1;i<points.length-1;i++) {
+        const t=length?Math.max(0,Math.min(1,((points[i][0]-a[0])*dx+(points[i][1]-a[1])*dy)/length)):0;
+        const d=(points[i][0]-a[0]-t*dx)**2+(points[i][1]-a[1]-t*dy)**2;
+        if(d>best) {best=d;index=i}
+      }
+      return index<0?[a,b]:simplify(points.slice(0,index+1)).slice(0,-1).concat(simplify(points.slice(index)));
+    }
+    const loops=[];
+    while(edges.size) {
+      const start=edges.keys().next().value,points=[start.split(',').map(Number)];
+      let current=start;
+      do {
+        const next=edges.get(current);if(!next) break;
+        const point=next.pop();if(!next.length) edges.delete(current);
+        points.push(point);current=key(...point);
+      } while(current!==start);
+      if(current===start && points.length>8) {
+        const half=Math.floor(points.length/2);
+        let loop=simplify(points.slice(0,half+1)).slice(0,-1).concat(simplify(points.slice(half)).slice(0,-1));
+        // Round the traced pixel corners once, rather than exposing the raster
+        // staircase as a gold edge. Closed-loop subdivision preserves holes.
+        loop=loop.flatMap((a,i)=>{
+          const b=loop[(i+1)%loop.length];
+          return [[a[0]*.75+b[0]*.25,a[1]*.75+b[1]*.25],
+            [a[0]*.25+b[0]*.75,a[1]*.25+b[1]*.75]];
+        });
+        loops.push(loop.map(([x,y])=>[(x*step-mask.width/2)/mask.width,(y*step-mask.height/2)/mask.width]));
+      }
+    }
+    return loops;
+  }
+  let pointerX=0, pointerY=0, cameraX=0, cameraY=0, appPitch=0;
   let rotation=-.60, activeApp=null, hoveredApp=null;
   const universe=document.querySelector('.universe');
   const satellites=Array.from(document.querySelectorAll('.app-satellite'));
@@ -96,12 +144,8 @@
   if (context) {
     const source=new Image();
     source.onload=()=>{
-      const edge=document.createElement('canvas');
-      edge.width=source.naturalWidth;edge.height=source.naturalHeight;
-      const edgeContext=edge.getContext('2d');
-      if (!edgeContext) return;
       // Soften the silhouette corners once, retaining a crisp antialiased contour.
-      const rounded=document.createElement('canvas');rounded.width=edge.width;rounded.height=edge.height;
+      const rounded=document.createElement('canvas');rounded.width=source.naturalWidth;rounded.height=source.naturalHeight;
       const roundContext=rounded.getContext('2d');
       if (!roundContext) return;
       roundContext.filter='blur(12px)';roundContext.drawImage(source,0,0);roundContext.filter='none';
@@ -111,27 +155,23 @@
         pixels.data[i]=Math.round(255*t*t*(3-2*t));
       }
       roundContext.putImageData(pixels,0,0);
-      edgeContext.drawImage(rounded,0,0);
-      edgeContext.globalCompositeOperation='source-in';
-      // Black core with a narrow gold accent along the rounded shoulders.
-      edgeContext.fillStyle='#000000';
-      edgeContext.fillRect(0,0,edge.width,edge.height);
-      side=Array.from({length:16},(_,i)=>{
-        const shade=document.createElement('canvas');shade.width=edge.width;shade.height=edge.height;
-        const shading=shade.getContext('2d');
-        if(!shading) return edge;
-        shading.drawImage(edge,0,0);shading.globalCompositeOperation='source-atop';
-        const light=shading.createLinearGradient(0,0,edge.width*.8,edge.height);
-        const strength=i/15;
-        light.addColorStop(0,`rgba(255,225,148,${strength*.95})`);
-        light.addColorStop(.22,`rgba(222,170,62,${strength*.95})`);
-        light.addColorStop(.46,`rgba(125,78,18,${strength*.9})`);
-        light.addColorStop(.73,`rgba(243,194,83,${strength*.95})`);
-        light.addColorStop(1,`rgba(148,96,25,${strength*.9})`);
-        shading.fillStyle=light;shading.fillRect(0,0,edge.width,edge.height);
-        return shade;
-      });
-      const face=document.createElement('canvas');face.width=edge.width;face.height=edge.height;
+      contours=traceContours(rounded);
+      const levels=[-1,-.98,-.92,-.85,-.80,-.65,-.4,-.2,.2,.4,.65,.80,.85,.92,.98,1];
+      const ring=(point,t)=>{
+        const bevel=Math.max(0,(Math.abs(t)-.2)/.8);
+        const size=.9+.1*Math.sqrt(Math.max(0,1-bevel*bevel));
+        return [point[0]*size,point[1]*size,t*.11];
+      };
+      sideMesh=[];
+      for(const contour of contours) for(let j=0;j<levels.length-1;j++) {
+        const lo=levels[j],hi=levels[j+1];
+        const gold=Math.abs((lo+hi)/2)>.80 && Math.abs((lo+hi)/2)<.85;
+        for(let i=0;i<contour.length;i++) {
+          const a=contour[i],b=contour[(i+1)%contour.length];
+          sideMesh.push({points:[ring(a,lo),ring(b,lo),ring(b,hi),ring(a,hi)],gold});
+        }
+      }
+      const face=document.createElement('canvas');face.width=rounded.width;face.height=rounded.height;
       const faceContext=face.getContext('2d');
       if (!faceContext) return;
       // Enhance the source itself: no opaque color layer over its internal facets.
@@ -140,83 +180,71 @@
       faceContext.filter='none';
       faceContext.globalCompositeOperation='destination-in';faceContext.drawImage(rounded,0,0);
       logo=face;
+      // Bake the face lighting once. A canvas filter on every rotated frame
+      // repeatedly rasterizes the texture and can interrupt smooth motion.
+      litLogo=document.createElement('canvas');litLogo.width=face.width;litLogo.height=face.height;
+      const litContext=litLogo.getContext('2d');
+      litContext.filter='brightness(1.1)';litContext.drawImage(face,0,0);
       reflection=document.createElement('canvas');reflection.width=face.width;reflection.height=face.height;
       document.querySelector('.universe').classList.add('brand-canvas-ready');
       draw();
     };
     source.src='./img/devantiq-logo.png';
   }
-  function drawLogo(ctx,cx,cy,profileYaw=null) {
+  function drawLogo(ctx,cx,cy) {
     if (!logo) return;
     const logoWidth=sphereRadius()*1.63;
     const logoHeight=logoWidth*logo.height/logo.width;
     const depth=logoWidth*.22;
-    const yaw=profileYaw===null?rotation+cameraX*.22:profileYaw;
-    const pitch=-.24+cameraY*.15+(activeApp && !paused ? (satellites.indexOf(activeApp)>1?.10:-.10) : 0);
+    const yaw=rotation+cameraX*.22;
+    const pitch=-.24+cameraY*.15+appPitch;
     const cosY=Math.cos(yaw),sinY=Math.sin(yaw),cosX=Math.cos(pitch),sinX=Math.sin(pitch);
-    // Blend complete silhouettes around profile, not individual translucent
-    // slices. Reversing their painter order in one frame causes a visible pop.
-    const profileBand=.055, profileLimit=Math.sin(profileBand);
-    if(profileYaw===null && Math.abs(cosY)<profileLimit) {
-      const span=Math.ceil(Math.max(logoWidth,logoHeight)+depth*2+12);
-      const ratio=Math.min(devicePixelRatio || 1,2);
-      const pixels=Math.ceil(span*ratio);
-      const buffers=profileBuffers.map(buffer=>{
-        if(buffer.width!==pixels || buffer.height!==pixels) {buffer.width=pixels;buffer.height=pixels}
-        const painter=buffer.getContext('2d');
-        painter.setTransform(ratio,0,0,ratio,0,0);
-        painter.clearRect(0,0,span,span);
-        return painter;
-      });
-      const direction=sinY>=0?1:-1, edge=direction*Math.PI/2;
-      drawLogo(buffers[0],span/2,span/2,edge-direction*profileBand);
-      drawLogo(buffers[1],span/2,span/2,edge+direction*profileBand);
-      const mix=(cosY/profileLimit+1)/2;
-      const blend=buffers[2];
-      blend.save();
-      blend.globalAlpha=mix;
-      blend.drawImage(profileBuffers[0],0,0,span,span);
-      blend.globalCompositeOperation='lighter';
-      blend.globalAlpha=1-mix;
-      blend.drawImage(profileBuffers[1],0,0,span,span);
-      blend.restore();
-      ctx.drawImage(profileBuffers[2],cx-span/2,cy-span/2,span,span);
-      return;
-    }
     const front=cosY>=0;
-    // Parallel projection keeps the brand proportions exact on each face.
-    // Every slice is shifted along the rotated Z axis, so the sides remain solid.
-    function plane(image,z,mirror=false,brightness=1,size=1,solidSlice=false) {
+    function plane(image,z,mirror=false,size=1) {
       ctx.save();
       ctx.translate(cx+sinY*z,cy-cosY*sinX*z);
-      // Keep extrusion slices overlapping at profile: a zero-width affine
-      // projection otherwise makes every slice disappear on the same frame.
-      const projectedX=solidSlice
-        ? (front?1:-1)*Math.max(Math.abs(cosY),2/(logoWidth*size))
-        : cosY;
-      ctx.transform(projectedX,sinY*sinX,0,cosX,0,0);
+      ctx.transform(cosY,sinY*sinX,0,cosX,0,0);
       if(mirror) ctx.scale(-1,1);
       ctx.scale(size,size);
-      ctx.filter=brightness===1?'none':`brightness(${brightness})`;
       ctx.drawImage(image,-logoWidth/2,-logoHeight/2,logoWidth,logoHeight);
       ctx.restore();
     }
-    const slices=Math.ceil(depth*2);
-    for(let i=0;i<=slices;i++) {
-      const t=i/slices, z=(front?t-.5:.5-t)*depth;
-      // Rounded shoulders span 40% at each end, leaving a short central edge.
-      const bevel=Math.max(0,(Math.abs(2*t-1)-.20)/.80);
-      const size=.90+.10*Math.sqrt(Math.max(0,1-bevel*bevel));
-      // A tight highlight band leaves most of the rounded black shoulder exposed.
-      const highlight=bevel>0?Math.exp(-Math.pow((bevel-.78)/.065,2)):0;
-      plane(side[Math.round(highlight*15)],z,false,1,size,true);
+    // Connected side quads stay solid at 90 degrees. There is no slice-order
+    // switch, artificial minimum width or superposition of different angles.
+    const surfaces=[];
+    for(const face of sideMesh) {
+      const points=face.points.map(([x,y,z])=>[
+        cx+logoWidth*(cosY*x+sinY*z),
+        cy+logoWidth*(sinY*sinX*x+cosX*y-cosY*sinX*z),
+        -sinY*cosX*x+sinX*y+cosY*cosX*z
+      ]);
+      const a=points[0],b=points[1],d=points[3];
+      const area=(b[0]-a[0])*(d[1]-a[1])-(b[1]-a[1])*(d[0]-a[0]);
+      if(area<=0) continue;
+      const depth=points.reduce((sum,p)=>sum+p[2],0)/4;
+      surfaces.push({points,depth,gold:face.gold});
     }
+    surfaces.sort((a,b)=>a.depth-b.depth);
+    ctx.save();ctx.lineWidth=.25;ctx.lineJoin='round';
+    for(const surface of surfaces) {
+      const points=surface.points;
+      const meanY=points.reduce((sum,p)=>sum+p[1],0)/points.length;
+      const light=Math.max(0,Math.min(1,.55-(meanY-cy)/logoHeight));
+      ctx.fillStyle=surface.gold
+        ? `rgb(${Math.round(135+95*light)},${Math.round(91+90*light)},${Math.round(24+57*light)})`
+        : '#020305';
+      ctx.strokeStyle=ctx.fillStyle;
+      ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);
+      for(let i=1;i<points.length;i++) ctx.lineTo(points[i][0],points[i][1]);
+      ctx.closePath();ctx.fill();ctx.stroke();
+    }
+    ctx.restore();
     const faceZ=(front?1:-1)*(depth/2+.8);
     // Fade the face smoothly into the black edge before swapping front/back.
     const faceVisibility=Math.min(1,Math.abs(cosY)/.10);
     ctx.save();
     ctx.globalAlpha*=faceVisibility*faceVisibility*(3-2*faceVisibility);
-    plane(logo,faceZ,!front,1.1,.90);
+    plane(litLogo,faceZ,!front,.90);
     // Moving blue specular reflection, clipped to the face rather than a rectangle.
     const shine=reflection.getContext('2d');
     if (shine) {
@@ -228,7 +256,7 @@
       light.addColorStop(.43,'#7da8ef0a');light.addColorStop(.5,'#93bdff22');
       light.addColorStop(.57,'#7da8ef0a');light.addColorStop(.8,'#365db900');light.addColorStop(1,'#365db900');
       shine.fillStyle=light;shine.fillRect(0,0,reflection.width,reflection.height);
-      plane(reflection,faceZ+(front?1:-1)*.1,!front,1,.90);
+      plane(reflection,faceZ+(front?1:-1)*.1,!front,.90);
     }
     ctx.restore();
   }
@@ -279,13 +307,15 @@
     width = rect.width; height = rect.height;
     universe.classList.add('glass-physics');
     bodies.forEach(body=>{body.w=body.element.offsetWidth;body.h=body.element.offsetHeight});
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    // Supersample thin gold edges even on standard-density desktop displays.
+    const dpr = 2;
     canvas.width = Math.round(width*dpr); canvas.height = Math.round(height*dpr);
     context.setTransform(dpr,0,0,dpr,0,0); draw();
   }
   function tick(time) {
-    if (!last || time-last>=32) {
-      const delta=last?Math.min(time-last,64):0;
+      // Draw on every display frame; skipping alternate frames made the
+      // thin silhouette visibly step as it rotated. Bound long-frame jumps.
+      const delta=last?Math.min(time-last,32):0;
       phase+=delta*.0003;
       bodies.forEach(body=>{if(body.element!==activeApp) body.time+=delta/1000});
       if(activeApp) {
@@ -293,8 +323,12 @@
         const difference=Math.atan2(Math.sin(target-rotation),Math.cos(target-rotation));
         rotation+=difference*(1-Math.exp(-delta*.004));
       } else rotation=(rotation+delta*.000225)%(Math.PI*2);
-      last=time;cameraX+=(pointerX-cameraX)*.12;cameraY+=(pointerY-cameraY)*.12;draw();
-    }
+      const easing=1-Math.exp(-delta*.004);
+      cameraX+=(pointerX-cameraX)*easing;
+      cameraY+=(pointerY-cameraY)*easing;
+      const targetPitch=activeApp?(satellites.indexOf(activeApp)>1?.10:-.10):0;
+      appPitch+=(targetPitch-appPitch)*easing;
+      last=time;draw();
     frame=requestAnimationFrame(tick);
   }
   function sync() {
